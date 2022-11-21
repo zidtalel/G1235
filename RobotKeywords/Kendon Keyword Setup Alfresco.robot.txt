@@ -1,0 +1,36 @@
+#Login Page Elements
+
+txt_username="name:username"
+txt_password="name:password"
+btn_login="id:page_x002e_components_x002e_slingshot-login_x0023_default-submit-button" 
+
+#Accueil Page Elements
+titre_accueil="css=span[title='Tableau de bord de Kendon Williams']"
+
+
+*** Variables ***
+${nom_dossier}    testdossier
+${num_dossier}    1
+${nom_groupe}    testgroupe
+${num_groupe}    1
+${site}    http://localhost:8091/share/page/
+${browser}    gc
+${options}    options
+${langue_fr}    add_argument('--lang=fr')
+${partiel_titre_accueil}    Tableau de bord
+${user}    0741393
+${pass}    12345678
+${sleep_timer}    300ms
+${incremente_num_dossier}  
+
+
+*** Keywords ***
+Setup Alfresco
+    [Arguments]    ${site}    ${browser}    ${options}    ${langue_fr}    ${user}    ${pass}    ${partiel_titre_accueil}    
+    Open Browser    ${site}    ${browser}    ${options}=${langue_fr}
+    Maximize Browser Window
+    Input Text    ${txt_username}    ${user}
+    Input Password    ${txt_password}    ${pass}
+    Click Button    ${btn_login}
+    Wait Until Element Is Visible    ${titre_accueil}    
+    Element Should Contain    ${titre_accueil}    ${partiel_titre_accueil}

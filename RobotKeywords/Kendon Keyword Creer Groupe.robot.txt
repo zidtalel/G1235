@@ -1,0 +1,60 @@
+#Login Page Elements
+
+txt_username="name:username"
+txt_password="name:password"
+btn_login="id:page_x002e_components_x002e_slingshot-login_x0023_default-submit-button" 
+
+#Accueil Page Elements
+titre_accueil="css=span[title='Tableau de bord de Kendon Williams']"
+
+#Outils Admin Page Elements
+menu_outils_admin="link:Outils admin"
+lien_groupes="link:Groupes"
+btn_parcourir="xpath://button[text()='Parcourir']"
+icone_nouveau_groupe="xpath://span[@title='Nouveau groupe']"
+txt_identifiant_groupe="id:page_x002e_ctool_x002e_admin-console_x0023_default-create-shortname"
+txt_nom_groupe="id:page_x002e_ctool_x002e_admin-console_x0023_default-create-displayname"
+btn_creer_groupe="xpath://button[text()='Créer un groupe']"
+alerte_groupe_deja_present="xpath://div[@id='prompt']"
+btn_cancel_alerte_groupe="xpath://div[@class='ft']//button[text()='Annuler']"
+btn_recherche_groupe="xpath://div[@class='search-button']//button[text()='Rechercher']"
+txt_recherche_groupe="id:page_x002e_ctool_x002e_admin-console_x0023_default-search-text"
+colonne_identifiant_groupe="xpath://td[@headers='yui-dt9-th-shortName ']"
+ligne_tableau_groupe="xpath://a[@class='yui-columnbrowser-item groups-item-group']"
+icone_supprime_groupe="xpath://span[@class='yui-columnbrowser-item-buttons yui-columnbrowser-item-buttons-active']//span[@title='Supprimer le Groupe']"
+btn_supprime="xpath://button[text()='Supprimer']"
+
+*** Variables ***
+${nom_dossier}    testdossier
+${num_dossier}    1
+${nom_groupe}    testgroupe
+${num_groupe}    1
+${site}    http://localhost:8091/share/page/
+${browser}    gc
+${options}    options
+${langue_fr}    add_argument('--lang=fr')
+${partiel_titre_accueil}    Tableau de bord
+${user}    0741393
+${pass}    12345678
+${sleep_timer}    300ms
+${incremente_num_dossier}  
+
+#Besoin Keyword SetupAlfresco et Keyword Eviter Groupe Duplique
+*** Keywords ***
+Creer Groupe
+    [Arguments]    ${nom_groupe}    ${num_groupe}
+    Click Element    ${menu_outils_admin}
+    Wait Until Element Is Visible    ${lien_groupes}
+    Click Element    ${lien_groupes}
+    Wait Until Element Is Visible    ${btn_parcourir}
+    Click Button    ${btn_parcourir}    
+    Wait Until Element Is Visible    ${icone_nouveau_groupe}
+    Click Element    ${icone_nouveau_groupe}
+    Wait Until Element Is Visible    ${btn_creer_groupe}
+    Input Text    ${txt_identifiant_groupe}    ${nom_groupe}${num_groupe}
+    Input Text    ${txt_nom_groupe}    ${nom_groupe}${num_groupe}
+    Click Button    ${btn_creer_groupe}
+    ${num_groupe}    Eviter Groupe Duplique    ${nom_dossier}    ${num_dossier}    
+    Wait Until Page Contains    ${nom_groupe}${num_groupe}    
+    [Return]    ${num_groupe}
+	

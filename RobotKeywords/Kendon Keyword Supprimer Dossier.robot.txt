@@ -1,0 +1,72 @@
+#Login Page Elements
+
+txt_username="name:username"
+txt_password="name:password"
+btn_login="id:page_x002e_components_x002e_slingshot-login_x0023_default-submit-button" 
+
+#Accueil Page Elements
+titre_accueil="css=span[title='Tableau de bord de Kendon Williams']"
+
+#Fichiers Partages Elements
+menu_fichiers_partages="css:a[title='Fichiers partagés']"
+btn_creer_fichier_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createContent-button-button"
+lien_dossier="css:.folder-file"
+txt_nom_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder_prop_cm_name"
+txt_titre_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder_prop_cm_title"
+btn_submit_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder-form-submit-button"
+txt_descrip_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder_prop_cm_description"
+alerte_dossier_deja_present="xpath://div//span[contains(text(),'Impossible')]"
+btn_cancel_alerte_dossier="xpath://button[@id='template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder-form-cancel-button']"
+btn_general_triage="xpath://span[@id='template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-sortField-button']//button"
+lien_ordre_modifie="link:Modifié"
+btn_ordre_triage="xpath://span[@id='template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-sortAscending-button']"
+btn_decroissant_triage="xpath://button[@title='Tri décroissant']"
+lien_plus="xpath://span[text()='Plus...']"
+lien_supprime_dossier="css:a[title='Supprimer le Dossier'] span"
+btn_supprime="xpath://button[text()='Supprimer']"
+
+
+
+*** Variables ***
+${nom_dossier}    testdossier
+${num_dossier}    1
+${nom_groupe}    testgroupe
+${num_groupe}    1
+${site}    http://localhost:8091/share/page/
+${browser}    gc
+${options}    options
+${langue_fr}    add_argument('--lang=fr')
+${partiel_titre_accueil}    Tableau de bord
+${user}    0741393
+${pass}    12345678
+${sleep_timer}    300ms
+${incremente_num_dossier}    1
+
+
+
+#Besoin Keyword SetupAlfresco et idealement Keyword CreerGroupe et Keyword Eviter Groupe Duplique
+*** Keywords ***
+Supprimer Dossier    
+    [Arguments]    ${nom_dossier}    ${num_dossier}             
+    Click Element    ${menu_fichiers_partages}
+    Wait Until Element Is Visible    ${btn_general_triage}
+    Click Button    ${btn_general_triage}
+    Wait Until Element Is Visible    ${lien_ordre_modifie}    
+    Click Element    ${lien_ordre_modifie} 
+    Wait Until Element Is Visible    ${btn_ordre_triage}
+    ${IsBoutonDecroissantVisible}    Run Keyword And Return Status    Element Should Be Visible    ${btn_decroissant_triage}    
+    Run Keyword If    ${IsBoutonDecroissantVisible}    Click Element    ${btn_ordre_triage}
+    Reload Page
+    Wait Until Element Is Visible    //a[text()='${nom_dossier}${num_dossier}']
+    Mouse Over    //a[text()='${nom_dossier}${num_dossier}']
+    Wait Until Element Is Visible    ${lien_plus}    
+    Click Element    ${lien_plus} 
+    Wait Until Element Is Visible    ${lien_supprime_dossier}    
+    Click Element    ${lien_supprime_dossier}
+    Wait Until Element Is Visible    ${btn_supprime}   
+    Click Button    ${btn_supprime}
+    Wait Until Page Does Not Contain    ${nom_dossier}${num_dossier}    
+    Page Should Not Contain    ${nom_dossier}${num_dossier}  
+    Sleep    ${sleep_timer}
+
+       

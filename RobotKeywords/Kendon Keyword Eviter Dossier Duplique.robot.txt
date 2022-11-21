@@ -1,0 +1,69 @@
+#Login Page Elements
+
+txt_username="name:username"
+txt_password="name:password"
+btn_login="id:page_x002e_components_x002e_slingshot-login_x0023_default-submit-button" 
+
+#Accueil Page Elements
+titre_accueil="css=span[title='Tableau de bord de Kendon Williams']"
+
+#Fichiers Partages Elements
+menu_fichiers_partages="css:a[title='Fichiers partagés']"
+btn_creer_fichier_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createContent-button-button"
+lien_dossier="css:.folder-file"
+txt_nom_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder_prop_cm_name"
+txt_titre_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder_prop_cm_title"
+btn_submit_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder-form-submit-button"
+txt_descrip_dossier="id:template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder_prop_cm_description"
+alerte_dossier_deja_present="xpath://div//span[contains(text(),'Impossible')]"
+btn_cancel_alerte_dossier="xpath://button[@id='template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-createFolder-form-cancel-button']"
+btn_general_triage="xpath://span[@id='template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-sortField-button']//button"
+lien_ordre_modifie="link:Modifié"
+btn_ordre_triage="xpath://span[@id='template_x002e_documentlist_v2_x002e_sharedfiles_x0023_default-sortAscending-button']"
+btn_decroissant_triage="xpath://button[@title='Tri décroissant']"
+lien_plus="xpath://span[text()='Plus...']"
+lien_supprime_dossier="css:a[title='Supprimer le Dossier'] span"
+btn_supprime="xpath://button[text()='Supprimer']"
+
+
+
+*** Variables ***
+${nom_dossier}    testdossier
+${num_dossier}    1
+${nom_groupe}    testgroupe
+${num_groupe}    1
+${site}    http://localhost:8091/share/page/
+${browser}    gc
+${options}    options
+${langue_fr}    add_argument('--lang=fr')
+${partiel_titre_accueil}    Tableau de bord
+${user}    0741393
+${pass}    12345678
+${sleep_timer}    300ms
+${incremente_num_dossier}    1
+
+
+#Besoin Keyword Creer Dossier et Besoin Keyword SetupAlfresco
+*** Keywords ***
+Eviter Dossier Duplique
+    [Arguments]    ${nom_dossier}    ${num_dossier}
+    Sleep    ${sleep_timer}
+    ${IsDossierDejaPresent}    Run Keyword And Return Status    Page Should Contain Element    ${alerte_dossier_deja_present}
+    Run Keyword If    ${IsDossierDejaPresent}    Click Element    ${btn_cancel_alerte_dossier}
+    WHILE    ${IsDossierDejaPresent}
+        ${num_dossier}    Evaluate    ${num_dossier}+${incremente_num_dossier} 
+        Wait Until Element Is Enabled    ${btn_creer_fichier_dossier}
+        Click Button    ${btn_creer_fichier_dossier}
+        Click Element    ${lien_dossier}
+        Wait Until Element Is Visible    ${btn_submit_dossier}    
+        Input Text     ${txt_nom_dossier}    ${nom_dossier}${num_dossier}
+        Input Text    ${txt_titre_dossier}    ${nom_dossier}${num_dossier}
+        Input Text    ${txt_descrip_dossier}    ${nom_dossier}${num_dossier}
+        Click Button    ${btn_submit_dossier}
+        Sleep    ${sleep_timer}
+        ${IsDossierDejaPresent}    Run Keyword And Return Status    Page Should Contain Element    ${alerte_dossier_deja_present}
+        Run Keyword If    ${IsDossierDejaPresent}    Click Element    ${btn_cancel_alerte_dossier}       
+    END
+    [Return]    ${num_dossier}
+
+       

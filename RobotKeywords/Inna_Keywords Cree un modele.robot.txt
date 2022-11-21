@@ -1,0 +1,55 @@
+#Créer un modèle Elements
+link_OutilsAdmin="xpath://a[@title='Outils admin']"
+link_TitleOutilsAdmin="xpath://span[@title='Outils admin']"
+link_GestionnaireModeles="xpath://a[normalize-space()='Gestionnaire de modèles']"
+btn_Cree="xpath://span[@class='dijitReset dijitInline dijitButtonText']"
+txt_EspaceNom="xpath://input[@name='namespace']"
+txt_Prefixe="xpath://input[@name='prefix']"
+txt_Nom="xpath://input[@name='name']"
+txt_Creat="xpath://input[@name='author']"
+txt_Desc="xpath://textarea[@class='dijitTextBox dijitTextArea']"
+btn_OK="xpath://span[@id='CMM_CREATE_MODEL_DIALOG_OK_label']" 
+link_Modele="xpath://span[@class='value'][normalize-space()='Modele']"
+link_Accueil="xpath://a[normalize-space()='Accueil']"
+
+*** Keywords ***
+Créer un modèle
+    [Documentation]    Créer un modèle
+    ...    Se connecter avec un compte
+    
+    [Arguments]    ${TIMEOUT}    ${EspaceNom}    ${Prefixe}    ${Nom}    ${Creat}    ${Desc}
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}
+    # Cliquer sur l'ongle Outils admin
+    Click Element    ${link_OutilsAdmin}
+    # Attendre que de page Outils admin soit visible
+    Wait Until Element Is Visible    ${link_TitleOutilsAdmin} 
+    # Cliquer sur le lien Gestionnaire de modèles
+    Click Link    ${link_GestionnaireModeles}
+    # Cliquer sur le bouton Créer un modèle
+    Wait Until Element Is Visible    ${btn_Cree}
+    Click Element    ${btn_Cree}
+    Sleep    2
+    # Saisir d'espace de nom
+    Input text      ${txt_EspaceNom}    ${EspaceNom} 
+    # Saisir de préfixe   
+    Input text    ${txt_Prefixe}    ${Prefixe}  
+    # Saisir de nom   
+    Input text    ${txt_Nom}    ${Nom}     
+    # Saisir de créateur  
+    Input text    ${txt_Creat}    ${Creat} 
+    # Saisir de description   
+    Input text    ${txt_Desc}    ${Desc}   
+    # Click sur le bouton créer
+    Click Element    ${btn_OK} 
+    # Rafraichir la page 
+    Reload Page
+    Sleep    2
+    # Attendre que le modele soit visibleS
+    Wait Until Element Is Visible    ${link_Modele} 
+    # Verifier que le modele existe 
+    Element Should Contain    ${link_Modele}    Modele
+    # Retourner sur la page d'accueil
+    Click Element    ${link_Accueil}
+    #Close Browser
+    Close Browser

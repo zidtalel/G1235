@@ -1,0 +1,86 @@
+*** Settings ***
+Documentation    Fichiers de scripts pour fonction RQ6.BF8.1
+Library    SeleniumLibrary
+Variables    ../Locators/Locators_CreerPropriete.py
+
+
+*** Variables ***
+${vUrl}    http://localhost:8986/share/page/
+${vBrowser}    chrome
+${vUsername}    2203855
+${vPassword}    12345678
+${TIMEOUT}    5
+${vNom_propriete}    Robot Framework
+${vTitle_propriete}    Robot
+${vDescription}    Robot Framework test cases
+
+
+
+
+
+*** Keywords ***
+Login
+    [Documentation]    Ce keyword permet de se connecter au site
+    [Arguments]    ${vUrl}    ${vBrowser}    ${vUsername}    ${vPassword}
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}
+    # Ouvrir le navigateur en precisant l'URL et le navigateur
+    Open Browser    ${vURL}    ${vBrowser}
+    # Maximiser la fenetre du navigateur
+    Maximize Browser Window
+     # Saisie du login
+    Input text    ${txt_UserName}    ${vUsername}
+    # Saisie du mot de passe    
+    Input text    ${txt_Password}    ${vPassword}
+     # Click sur le bouton Login
+    Click Button   ${btn_Login}
+     # S'assurer que la page est chargee
+    Wait Until Element Is Visible    ${lblTitle}
+    # S'assurer que l'utilisateur est connecte et que le tableau de bord est affiche
+    Element Should Contain     ${lblTitle}    Tableau de bord de
+    
+
+Access to model
+    [Documentation]    Ce keyword permet d'acceder au modéle ciblé
+    # Accéder à la page Outils Admin
+    Click Element    ${txt_OutilAdmin}
+    # Accéder à la page Gestionnaire de modèles
+    Click Element    ${txt_GestModeles}
+    # Sélectionner le modèle ciblé
+    Click Element    ${txt_Model}
+    
+Access to aspect
+    [Documentation]    Ce keyword permet d'acceder à la propriété ciblée    
+    # Accéder à l'aspect
+    Click Element    ${txt_Aspect}
+
+Creer une propriete
+    [Documentation]    Ce keyword permet de créér une propriété
+    [Arguments]    ${vNom_propriete}    ${vTitle_propriete}    ${vDescription}    
+    # Cliquer sur bouton Créer une propriété
+    Click Button    ${btn_Create}
+    # Saisir le nom
+    Input Text    ${txt_name}    ${vNom_propriete}
+    # Saisir le titre
+    Input Text    ${txt_title}    ${vTitle_propriete}
+    # Saisir description
+    Input Text    ${txt_description}    ${vDescription}
+    # Clicker sur le bouton Create
+    Click Button    ${btn_Create}
+    # Faire capture d'écran de la pripriété créée
+    Capture Page Screenshot    ./Screenshots/Preuve_creation_propriete.png
+
+
+Logout
+    Wait Until Element Is Visible    ${link_HeaderUserMenu}
+    Click Element    ${link_HeaderUserMenu}
+    Wait Until Element Is Visible    ${link_HeaderDeconnexion}
+    Click Element    ${link_HeaderDeconnexion}
+    
+
+Fermer le Navigateur
+    Sleep    3
+    Close Browser
+    
+
+

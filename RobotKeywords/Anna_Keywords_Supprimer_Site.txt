@@ -1,0 +1,50 @@
+*** Settings ***
+Library    SeleniumLibrary
+Variables    ../Locators/Locators_SupprimerSite.py
+
+
+*** Variables ***
+${vSitename}     Robot
+
+
+
+*** Keywords ***
+Access to Corbeille
+    [Documentation]    Ce keyword permet d'accéder à la Corbeille 
+    # Accéder au menu de l'utilisateur
+    Click Element   ${txt_profil}
+    # Accéder au profil de l'utilisateur
+    Click Element    ${txt_monProfil}
+    # Accéder à la Corbeille
+    Click Element    ${txt_corbeille}
+
+Selectionner le site a supprimer
+    # Saisir le nom du site a supprimer
+    Input Text    ${txt_searchSite}    ${vSitename}     
+    # Clicker sur Rechercher 
+    Click Button    ${btn_recherche} 
+    Sleep    3
+    # Cocher le site
+    Select Checkbox    ${checkbox}
+    #Click Button    ${btn_supprimer}
+
+Supprimer le site    
+    # Clicker sur bouton Supprimer
+    Click Button    ${btn_supprimer}
+    # Confirmer la suppression
+    Click Button    ${btn_ok}
+    # Capture d'écran de message do confirmation de suppression
+    Capture Element Screenshot    ${txt_mesConf}    ./Screenshots/suppression_site.png
+    Capture Page Screenshot    ./Screenshots/page_corbeille.png
+
+
+
+
+
+
+
+
+
+
+
+//span[@id='HEADER_USER_MENU_POPUP_text']

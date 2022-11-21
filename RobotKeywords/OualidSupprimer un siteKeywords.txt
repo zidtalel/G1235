@@ -1,0 +1,33 @@
+*** Keywords ***
+Supprimer un site
+    Click Element    xpath=//*[@id="HEADER_SITES_MENU_text"]
+    Sleep    3
+    Click Element    xpath=//a[text()='Mes sites']    
+    Sleep    3
+    Click link    xpath=//*[@id="template_x002e_user-sites_x002e_user-sites_x0023_default-sites"]/li[2]/p/a
+    Sleep    3
+    Click Element    xpath=//*[@id="HEADER_SITE_CONFIGURATION_DROPDOWN"]/img
+    Sleep    3
+    Click Element    xpath=//*[@id="HEADER_DELETE_SITE_text"]
+    Sleep    3
+    Click Element    xpath=//*[@id="ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label"] 
+	
+Locators	
+#Login Page Elements
+
+	txt_UserName="name=username"
+
+	txt_Password="name=password"
+
+	btn_Login="xpath=//button[contains(text(), 'Connexion')]"
+
+
+
+
+#Dashboard Page Elements
+
+	lbl_Title="xpath=//h1[@id='HEADER_TITLE']/span"
+
+	link_HeaderUserMenu="id=HEADER_USER_MENU_POPUP_text"
+
+	link_HeaderDeconnexion="id=HEADER_USER_MENU_LOGOUT_text"

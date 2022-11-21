@@ -1,0 +1,52 @@
+*** Keywords ***
+Créer un évènement (dans un site déjà créé)
+    Click Element    xpath=//*[@id="HEADER_SITES_MENU_text"]
+    Sleep    3
+    Click Element    xpath=//a[text()='Mes sites'] 
+    Click Link    xpath=//*[@id="template_x002e_user-sites_x002e_user-sites_x0023_default-sites"]/li[1]/p/a
+    Click Element    xpath=//*[@id="HEADER_SITE_CALENDAR_text"]/a
+    Sleep    3
+    Click Element    xpath=//*[@id="Share"]
+    Sleep    3
+    Input Text    xpath=//*[@id="eventEditPanel-title"]    Rendez-vous
+    Sleep    3
+    Input Text    xpath=//*[@id="eventEditPanel-location"]    Monteal
+    Sleep    3
+    Input Text    xpath=//*[@id="eventEditPanel-description"]    rendez-vous dentaire pour Narjes Ben Yedder
+    Sleep    3
+    Click Element    xpath=//*[@id="eventEditPanel-allday"]
+    Sleep    3
+    Click Element    xpath=//*[@id="calendarpicker-button"]
+    Sleep    3
+    Click Element    xpath=//*[@id="buttoncalendar_cell30"]/a
+    Sleep    3
+    Click Element    xpath=//*[@id="calendarendpicker-button"]
+    Sleep    3
+    Click Element    xpath=//*[@id="buttoncalendar_cell30"]/a
+    Sleep    3
+    Input Text    xpath=//*[@id="eventEditPanel-tag-input-field"]    Narjes
+    Sleep    3
+    Click Button    xpath=//*[@id="eventEditPanel-add-tag-button-button"]
+    Sleep    3
+    Click Button    xpath=//*[@id="eventEditPanel-ok-button"]
+	
+	
+Locators	
+#Login Page Elements
+
+	txt_UserName="name=username"
+
+	txt_Password="name=password"
+
+	btn_Login="xpath=//button[contains(text(), 'Connexion')]"
+
+
+
+
+	#Dashboard Page Elements
+
+	lbl_Title="xpath=//h1[@id='HEADER_TITLE']/span"
+
+	link_HeaderUserMenu="id=HEADER_USER_MENU_POPUP_text"
+
+	link_HeaderDeconnexion="id=HEADER_USER_MENU_LOGOUT_text"

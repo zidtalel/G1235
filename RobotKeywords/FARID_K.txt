@@ -1,0 +1,177 @@
+FARID 
+supp grp OK
+
+localisateurs
+ #-----------------------------------------------SUPPRESION GROUPE AREA-------------------------------------------
+*** Variables ***
+#THE VALUE OF ${res} should be between ''==Nomafficher du groupe  ... si nom groupe ==B2 THEN ...${res}=    'B2']
+
+# precondition
+    # creation groupe
+parcourir="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-browse-button-button']"
+ajouter="//span[@title='Nouveau groupe']"
+identifiant="//input[@id='page_x002e_ctool_x002e_admin-console_x0023_default-create-shortname']"
+nomGroupe="//input[@id='page_x002e_ctool_x002e_admin-console_x0023_default-create-displayname']"
+createGRP="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-creategroup-another-button-button']"
+
+# outil admin  
+out_admn="//span[@id='HEADER_ADMIN_CONSOLE_text']/a"
+# confirm result 
+# title 
+titre_adm="//span[@title='Outils admin']"
+# gestion groupe
+g_gr="//span/a[text()='Groupes']"
+# confirm  label Groupes
+lbl_gr="//label[text()='Groupes']"	
+ #input text  recherchegroupe    fa_grrg_af
+srch_grp="//input[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-text']"
+# click  button recherche
+srch_btn_gr="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-button-button']"
+# confirm result  icontain identifier f
+ident_grp="//div[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-panel']//descendant::* "
+name_grp="//div[text()="   
+# clic result croix suppp 
+sup_grp="//a[@class='delete']"
+# suppconsole  
+sup_consol="//div[@id='page_x002e_ctool_x002e_admin-console_x0023_default-deletegroupdialog']"
+# suppbutton on consol
+supconfirm="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-remove-button-button']"  
+scancel= "//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-cancel-button-button']"
+
+
+
+
+
+
+
+*** Keywords ***
+
+precondition 
+    [tags]    creation groupe avec identifiant et Nom 
+    [Arguments]    ${inp_identifiant}    ${inp_nomGroupe}
+    Click Button    ${parcourir} 
+    Wait Until Element Is Visible     ${ajouter}
+    Click Element    ${ajouter}
+    Input Text     ${identifiant}     ${inp_identifiant}    
+    Input Text     ${nomGroupe}        ${inp_nomGroupe}    
+    Click Button    ${createGRP} 
+
+ access grp search zone   
+    Click Element     ${out_admn}
+    Wait Until Element Is Visible  ${titre_adm}
+    Click Element    ${g_gr}
+    Wait Until Element Contains    ${lbl_gr}     Groupes
+ grp srch input
+     [Arguments]    ${ident}         
+  #input text  recherchegroupe 
+  Input Text    ${srch_grp}    ${ident}                       
+#    Input Text     ${srch_grp}     f   
+  # click  button recherche
+  Click Button    ${srch_btn_gr}
+ CLR
+    Clear Element Text    ${srch_grp}
+ result    
+     [Arguments]    ${res}
+    [tags]     la CONFIRMATION  est obtenu par identifiant et nom de groupe selon resultat attendu     
+    #  [Arguments]${ident_grp}     ${name_grp}${res}     
+    Wait Until Element Contains    ${ident_grp}     ${ident}
+    Sleep    5
+     Wait Until Element Is Visible     ${name_grp}${res}    
+
+    
+delete groupe
+    Click Element    ${sup_grp}
+    Wait Until Element Is Visible   ${sup_consol}   
+    Click Element    ${supconfirm}
+
+-------------------------------------creer article RQ3.BF9.1--V0.0 --------------------------------
+
+licalisateurs
+
+#Login Page Elements
+txt_lgn="//input[@id='page_x002e_components_x002e_slingshot-login_x0023_default-username']" 
+txt_Pwd="name=password"
+btn_Login="xpath=//button[contains(text(), 'Connexion')]"
+
+#selecting sites menu for search site
+site="xpath=//*[@id='HEADER_SITES_MENU_text']"
+MesS="//tr[@id='HEADER_SITES_MENU_MY_SITES']"       
+Mes_result="xpath=//li/p/a[text()='http://demoqa.com/']" 
+
+#BLOG MENU BAR ACESS 
+BLG="//a[@title='Blog']"
+#CREATION ARTICLE PAGE  
+btn_create="//button[@id='template_x002e_toolbar_x002e_blog-postlist_x0023_default-create-button-button']"
+title_pageCreation="//div/h1[text()='Créer un article sur le blog']"
+# fields input  for article and confirme creation
+titre_A="//input[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-title']"
+#switch frame for discreption area
+frm= "//iframe[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-content_ifr']" 
+discreptio_A="//body[@id='tinymce']/p"
+#before acees this area you need to get out of frame 
+tag_A="//div/input[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-tag-input-field'] "
+tag_ajouter_button="//button[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-add-tag-button-button']"
+publier_A="//button[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-publish-button-button']"
+# TAG SHOW  ON SAME PAGE
+tg_Result="//li/a/span[text()='FATG']"
+#Confirm creation with critiria
+tg_END="//span/a[text()='fatg']"	
+dic_END="//div/p[text()='ff']"
+Auteur="//span/a[@class='theme-color-1']"   
+nom="//div[@class='nodeTitle']/a"
+# tm="//span[@class='nodeAttrValue']"
+#disconect
+usrm="id=HEADER_USER_MENU_POPUP_text"
+# dec="id=HEADER_USER_MENU_LOGOUT_accel"
+dec="//tr[@id='HEADER_USER_MENU_LOGOUT']"
+
+
+***keywords***
+
+reach site 
+    # selecting bar  site icone
+    Click Element    ${site}    
+    # Select site on drop menu list   
+    Wait Until Element Is Visible    ${MesS} 
+    Click Element    ${MesS}
+    #selecting on liste result 
+    Click Element    ${Mes_result}
+
+ #acees blog menu on menu bar 
+ BLOG ACEES
+     Click Element    ${BLG}
+create article
+    [Documentation]      access page creation article  
+    Click Element    ${btn_create} 
+    Wait Until Element Contains    ${title_pageCreation}    Créer un article sur le blog
+Remplire champs et validee
+    [Documentation]      saisi champs  article   
+    Input Text    ${titre_A}    FAT
+    Textfield Value Should Be    ${titre_A}         FAT
+
+    Select Frame    ${frm} 
+    Input Text    ${discreptio_A}    FAD   
+    Wait Until Element Contains    ${discreptio_A}         FAD
+    Unselect Frame
+
+    Sleep    4 
+    Input Text    ${tag_A}    FATG
+    Click Button  ${tag_ajouter_button}    
+    Wait Until Element Contains    ${tg_Result}         FATG
+    Click Button  ${publier_A} 
+    Get Current Date
+    
+confirm creation
+             
+    Wait Until Element Contains    ${tg_END}   fatg 
+    # Wait Until Element Contains    ${dic_END}   FATD...........in progresss
+    Wait Until Element Contains    ${Auteur}   User1 User1 
+    Wait Until Element Contains    ${nom}   FAT 
+refresh
+    Press Key   xpath=//body    \ue035
+disconnect
+    Click Element    ${usrm} 
+    Sleep    5sec
+    Wait Until Element Is Visible    ${dec}
+    Click Element     ${dec}
+    Close Browser

@@ -1,0 +1,28 @@
+locateur
+
+#lien btn liste de donnee
+Link_ListeD="xpath://div[@id='HEADER_SITE_DATA-LISTS']"
+#supprimer une liste de donnée
+link_documentAsupp="xpath=//a[normalize-space()='Liste de donné1']"
+tick_documenAsupp="xpath=//input[@name='fileChecked']"
+btn_elementSelect="xpath://button[@id='template_x002e_toolbar_x002e_data-lists_x0023_default-selectedItems-button-button']"
+btn_supp_head="xpath://span[@class='onActionDelete']"
+conf_supp="xpath://span[@class='button-group']/span/span/button[text()='Supprimer']"
+
+
+keywords
+
+OuvrirListeDonnee
+    [Arguments]    ${Link_ListeD}
+    Wait Until Element Is Visible    ${Link_ListeD}
+    Click Element    ${Link_ListeD}
+    Click Element    ${link_documentAsupp}
+SupprimerListDonnee
+    [Arguments]    ${tick_documenAsupp}    ${btn_elementSelect}    ${btn_supp_head}    ${conf_supp}
+    Wait Until Element Is Visible    ${tick_documenAsupp}
+    Click Element    ${tick_documenAsupp}
+    Wait Until Element Is Visible    ${btn_elementSelect}  
+    Click Element    ${btn_elementSelect}
+    Click Element    ${btn_supp_head}
+    Sleep    2
+    Click Element    ${conf_supp}

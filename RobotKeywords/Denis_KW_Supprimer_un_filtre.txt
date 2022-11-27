@@ -1,0 +1,31 @@
+# Supprimer un filtre Elements
+
+#ElementSupprimer="xpath://img[@title='Cliquez pour supprimer "${vFiltreID}"]"
+TitleConfirmationSupprimer="id:ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title"
+Btn_ConfirmationSupprimer="xpath://span[@id='ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM']"
+
+*** Keywords ***
+Supprimer un filtre
+    [Documentation]    Ce keyword permet de supprimer un  filtre avec atribut selectioné pendant
+    ...    que utilisateur present sur le page de Gestionnaire de recherche
+    # vFilterID - Contenu de champ ID du filtre
+    # vFiltreName - Contenu de champ Nom du filtre
+    [Arguments]    ${vFiltreID}    ${vFiltreName}
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}
+    # Verifier que l'element a suprimer presante
+    Wait Until Element Is Visible    //img[@title="Cliquez pour supprimer ''${vFiltreID}''"]
+    # Cliquer sur le bouttone Suprimer
+    Click Element    //img[@title="Cliquez pour supprimer ''${vFiltreID}''"]
+    # Vérifier si le message d'avertissement de suppression s'affiche
+    Wait Until Element Is Visible    ${TitleConfirmationSupprimer}
+    Sleep    3
+    # Confirmer le suppression
+    Click Element    ${Btn_ConfirmationSupprimer}
+    # Attendre que de page Gestionnaire de recherche soit visible
+    Wait Until Element Is Visible    ${TitlePageGestionnaireRecherche}
+    Sleep    3
+    # Verifier suppression de tâche
+    Page Should Not Contain Element    //span[normalize-space()=${vFiltreID}]
+    # Verifier suppression du filtre avec scrinshot
+    Capture Page Screenshot    ./ScreenCreerFiltre/Filtresupprim.png

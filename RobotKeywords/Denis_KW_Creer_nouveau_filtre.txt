@@ -1,0 +1,92 @@
+# Créer un nouveau filtre Elements
+linkOutilsAdmin="xpath://a[@title='Outils admin']"
+TitleOutilsAdmin="xpath://span[@title='Outils admin']"
+linkGestionnaireRecherche="xpath://a[@title='Gestionnaire de recherche']"
+TitleGestionnaireRecherche="xpath://b[normalize-space()='Search Manager']"
+Ici="xpath://a[@title='Search Manager']"
+TitlePageGestionnaireRecherche="xpath=//h1[@id='HEADER_TITLE']/span"
+Btn_Creer_nouveau_filtre="xpath://span[@id='CREATE_FACET_BUTTON_label']"
+lbl_CreerFiltre="xpath://span[@role='heading'][text()='Créer un nouveau filtre']"
+txt_filterID="filterID"
+txt_filtreName="displayName"
+VAffichage="xpath://input[@name='isEnabled'][@type='checkbox']"
+typePropriete="xpath://input[@id='FORM_FACET_QNAME_CONTROL']"
+#//input[@class='dijitReset dijitInputField dijitArrowButtonInner'][@type='text']"
+valeurPropriete="xpath://input[@value='SITE']"
+txt_typeFiltre="xpath://span[@role='option'][1]"
+typeFiltre="dijit_MenuItem_0_text"
+typeTriage="xpath://span[normalize-space()='A-Z']"
+txt_NombreFiltre="xpath://input[@data-dojo-attach-event='onkeydown:_onKeyDown'][1]"
+txt_LongueurFiltre="xpath://input[@data-dojo-attach-event='onkeydown:_onKeyDown'][2]"
+txt_NombreResult="xpath://input[@data-dojo-attach-event='onkeydown:_onKeyDown'][3]"
+typeDisponibilite="xpath://span[@role='option'][normalize-space()='Partout']"
+Btn_Enregistre="xpath://span[text()='Enregistrer']"
+#ElementSupprimer="xpath://img[@title='Cliquez pour supprimer "${vFiltreID}"]"
+TitleConfirmationSupprimer="id:ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_title"
+Btn_ConfirmationSupprimer="xpath://span[@id='ALF_CRUD_SERVICE_DELETE_CONFIRMATION_DIALOG_CONFIRM']"
+
+*** Keywords ***
+Creer nouveau filtre
+    [Documentation]    Ce keyword permet de créer un nouveau filtre avec atribut selectioné
+    # vFilterID - Contenu de champ ID du filtre
+    # vFiltreName - Contenu de champ Nom du filtre
+    # vAffichage - Choix du type d'affichage
+    # vPropriete - Type propriété pour filtrer les résultats
+    # vTypeFiltre - Choix du type de filtre
+    # vTriage - Type de triage de filtre
+    # vNombreFiltre - Nombre de filtres
+    # vLongeuerFiltre - Longueur minimum du filtre
+    # vNombreResult - Nombre minimum de résultats
+    # vTypeDisponibilite - Disponibilité du filtre
+    [Arguments]    ${vFiltreID}    ${vFiltreName}
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}
+    # Vérifier que on a rendu dans la page nécessaire
+    Wait Until Element Is Visible    ${linkOutilsAdmin}
+    # Accéder à la page Outils Admin
+    Click Element    ${linkOutilsAdmin}
+    # Attendre que la page Outils admin soit visible
+    Wait Until Element Is Visible    ${TitleOutilsAdmin}
+    # Cliquer sur le lien Gestionnaire de recherche
+    Click Element    ${linkGestionnaireRecherche}
+    # Attendre que la page de redirection a Gestionaire de recherche soit visible
+    Wait Until Element Is Visible    ${TitleGestionnaireRecherche}
+    # Accéder à la page de l'écran des résultats de la recherche
+    Click Link    ${Ici}
+    Switch Window    NEW
+    #Go To    http://localhost:8986/share/page/dp/ws/faceted-search-config
+    # Attendre que la page Gestionaire de recherche soit visible
+    Element Should Contain    ${TitlePageGestionnaireRecherche}    Gestionnaire de recherche
+    # Vérifier que le filtre avec ID crée n'existe pas
+    Page Should Not Contain    ${vFiltreID}
+    # Cliquer sur le bouttone Créer un nouveau filtre
+    Click Element    ${Btn_Creer_nouveau_filtre}
+    # Attendre que la fenetre de creation de nouveau filtre soit visible
+    Element Should Contain    ${lbl_CreerFiltre}    Créer un nouveau filtre
+    # Saisir la valeur de ID du filtre
+    Input Text    ${txt_filterID}    ${vFiltreID}
+    # Saisir la valeur de Nom du filtre
+    Input Text    ${txt_filtreName}    ${vFiltreName}
+    # Cocher le champ sélectionné
+    Checkbox Should Be Selected    ${VAffichage}
+    # Saisir la valeur de Propriété p du filtre
+    #Click Element    ${typePropriete}
+    Clear Element Text    ${typePropriete}
+    Sleep    3
+    Input Text    ${typePropriete}    Site    
+    # Selectione la valeur de Type du filtre
+    Click Element    ${txt_typeFiltre}
+    # Choisi le type du Filtre
+    Click Element    ${typeFiltre}
+    # Saisir le manière de triage du filtre
+    # Saisir la valeur de Nombre du filtre
+    # Saisir la Longueur du filtre
+    # Saisir le Nombre de résultats
+    # Saisir le Disponibilité du filtre    
+    # Enregistrer le changement en clicant sur le boutton Enregistrer
+    Click Element    ${Btn_Enregistre}
+    # Verifier le creation de nouveau filtre
+    Sleep    3
+    Page Should Contain    ${vFiltreID}
+    # Verifier creation du filtre avec scrinshot
+    Capture Page Screenshot    ./ScreenCreerFiltr/FiltreExistant.png

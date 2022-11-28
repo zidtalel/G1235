@@ -47,9 +47,12 @@ option_configurationDeSite="xpath=//img[@title='Options de configuration de site
 option_personaliserSite="xpath=(//a[text()='Personnaliser le site'])[1]"
 
 # Sujets Page Elements
-link_sujetSupprimer="xpath=//a[text()='sujet20112141']"
+link_sujetSupprimer="xpath=//a[text()='sujetSupprimer1127']"
 option_SupprimerSujet="xpath=//a[text()='Supprimer']"
-btn_Supprimer="id=yui-gen0-button"
+btn_Supprimer="xpath=//button[text()='Supprimer']"
+
+
+
 
 
 
@@ -63,10 +66,11 @@ ${Ligne}
 ${vSitesFileName}    ListeSites.txt
 ${vSitesForDelFileName}    ListeSup.txt
 @{NomSites}
-@{date}    get date
-@{time}    get time
-${vChampIden}    groupeJoey + @{date} + @{time}
+# @{datetime}    Get Current Date
+${vChampIden}    groupeJoey
+# + @{datetime}
 ${vChampNomAffi}    groupeJoey
+
 
 
 SupprimerSujetDansDiscussionDeSite
@@ -84,5 +88,5 @@ SupprimerSujetDansDiscussionDeSite
     Wait Until Element Is Visible    ${option_SupprimerSujet}
     Click Element    ${option_SupprimerSujet}
     Wait Until Element Is Visible    ${btn_Supprimer}
-    # Click Button    ${btn_Supprimer}
+    Click Button    ${btn_Supprimer}
 

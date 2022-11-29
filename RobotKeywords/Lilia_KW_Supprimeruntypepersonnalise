@@ -10,11 +10,17 @@ Supprimer un type personalise
     #Click sur Gestionnaire de modéles 
     Click Element    xpath://a[contains(text(),"Gestionnaire de modèles")]
     Sleep    2
+    #Click sur le nom de modeles
     Click Element    xpath://span[contains(text(),'${vNomModele}')] 
     Sleep    2
+    #Click sur le menu Action du types personnalisé
     Click Element    //span[text()='modele:${vNomTypePres}']/ancestor::tr/descendant::span[text()='Actions'] 
     Sleep    1
+    #Click sur Supprimer du menu Actions 
     Click Element    //span[text()='modele:${vNomTypePres}']/ancestor::body/descendant::div[@role='region']/descendant::td[text()='Supprimer']
     Sleep    1
-    Click Element    //div[@role='dialog']/descendant::span[text()='Supprimer']        
+    #Click sur Supprimer du message de confirmation
+    Click Element    //div[@role='dialog']/descendant::span[text()='Supprimer']
+    #Verfier que le type personnalisé ne figure plus dans la page
+    Page Should Not Contain Link    ${vNomTypePers}        
     

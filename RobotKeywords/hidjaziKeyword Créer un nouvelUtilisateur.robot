@@ -27,16 +27,30 @@ ${TIMEOUT}    5s
 Créer-un-utilisateur
 # Definir la valeur de timeout pour le cas de test
     Set Selenium Timeout    ${TIMEOUT}
-    Click Element    ${link_OutilsAdmin}    
+    #cliquer sur le lien outil admin
+    Click Element    ${link_OutilsAdmin}
+    #cliquer sur le lien utilisateur    
     Click Element    ${link_Utilisateur}
+    #cliquer sur nouvel utilisateur
     Click Element     ${link_nouvelUtilisateur}
-    [Arguments]    ${vPrénom}    ${vNom}    ${v-E-Mail}    ${Nom_Utilisateur}    ${Mot_De_Passe}     
+    # vPrénom contien le prenom de l'utilisateur
+    # vNom contien le prenom de l'utilisateur
+    # v-E-Mail contien l'email de l'utilisateur
+    # Nom_Utilisateur contien le le nom de l'utilisateur
+    # Mot_De_Passe contient le mot de passe
+    [Arguments]    ${vPrénom}    ${vNom}    ${v-E-Mail}    ${Nom_Utilisateur}    ${Mot_De_Passe} 
+    # entrerle prenom    
     Input Text    ${link_Prénom}    ${vPrénom}
+    # entrerle nom 
     Input Text    ${link_Nom}    ${vNom}
+    #  entrer l'email
     Input Text    ${link_E_MAIL}    ${v-E-Mail}
+    #  entrer le nom 
     Input Text    ${link_Nom_Etilisateur}     ${Nom_Utilisateur}
-    Input Password    ${link_Mot_De_Passe}    ${Mot_De_Passe} 
+    #  entrer le mot de pass
+    Input Password    ${link_Mot_De_Passe}    ${Mot_De_Passe}
+    # la confirmation du mot de pass 
     Input Password    ${link_Confirme_Mot_De_Passe}    ${Mot_De_Passe} 
-
+    #cliquer sur le boutton créer
     Click Button    ${link_BouttonCréerUtilisateur}
     

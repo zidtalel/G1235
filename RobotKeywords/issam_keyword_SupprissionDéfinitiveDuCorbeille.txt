@@ -45,7 +45,7 @@ SupprissionDéfinitiveDuCorbeille
     Click Element    ${link1_monProfil}
     Sleep    2
     Click Element    ${corbeille}
-    Wait Until Element Is Visible    checkbox-yui-rec7
+    Sleep    2
     Click Button    ${Btn_supprimer}
     Sleep    2
     Click Button    ${Confirme_Supp}

@@ -1,0 +1,145 @@
+#keyword creation article  (
+
+#  Ajouter la variable  suivant comme elle est dans liste des variables du fichier  qui appele Se keyword 
+
+${Mes_result}    ${mrs1}${debutSite}${nomSite}${finSite} 
+
+-----------------------------------------------------------------
+===========================================localisateurs====================================================================================
+debutSite="'"
+finSite="']"
+mrs1="xpath=//li/p/a[text()="
+
+site="xpath=//*[@id='HEADER_SITES_MENU_text']"
+MesS="//tr[@id='HEADER_SITES_MENU_MY_SITES']"  
+mrs1="xpath=//li/p/a[text()="
+
+chkBlog =    "//a[@title='Blog']" 
+
+# -----------------------zone creation  ARTICLE--------
+articleCreate=    "//button[@id='template_x002e_toolbar_x002e_blog-postlist_x0023_default-create-button-button']"
+articleTitle= "(//input[@type='text'])[2]" 
+fram="//iframe[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-content_ifr']"
+articleDiscreption= "//body[@id='tinymce']/p"
+articleTag =   "//input[@name='-']"
+articleTagbtn=   "//button[@name='-']"
+articleCreateButtonValidation=    "//button[@id='template_x002e_postedit_x002e_blog-postedit_x0023_default-publish-button-button']"
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+# Creerarticle     ${nomSite}       ${Text_articleTitle}    ${Text_articleDiscreption}    ${Text_articleTag} 
+--------------------------------------------------------------------------------------------------------------
+***settings***
+Resource   ..//../Tests/artcl.robot     chemin du fichier qui execute  se keyword 
+ 
+*** Variables ***
+ 
+*** Keywords ***
+ Creerarticle   
+   [Arguments]        ${nomSite}       ${Text_articleTitle}    ${Text_articleDiscreption}    ${Text_articleTag}      
+
+# selecting bar  site icone
+       
+    Click Element    ${site}
+    Wait Until Element Is Visible    ${MesS} 
+    Click Element    ${MesS}
+     
+    Wait Until Element Is Visible    ${Mes_result} 
+    Click Element    ${Mes_result}
+    Wait Until Element Is Visible    ${chkBlog}
+    Click Element    ${chkBlog}
+ 
+#CREATE ARTICLE  
+    Click Element   ${articleCreate}     
+    Wait Until Page Contains    Créer un article sur le blog
+    Wait Until Page Contains Element    ${articleTitle}    timeout=10
+    Input Text     ${articleTitle}   ${Text_articleTitle}
+    Select Frame     ${Fram}
+    Wait Until Element Is Visible    ${articleDiscreption}
+    Input Text    ${articleDiscreption}    ${Text_articleDiscreption} 
+    Unselect Frame       
+    Input Text     ${articleTag}   ${Text_articleTag} 
+    Click Element    ${articleTagbtn}
+    Click Element    ${articleCreateButtonValidation}
+====================================================================================================================================================================
+
+					
+
+
+
+
+
+						SUPPRESSIMER UN GROUPE EXISTANT 
+=======================================================================================================================================================================
+#nb ajouter la variable comme elle est dans les variables du fichier qui apell se keyword
+${res}   ${p}${ident}${pf} 
+
+
+${ident} represent identifiant du groupe a supprimer
+
+---------------------------------------------------------------------------------------
+*** Settings ***
+ 
+Library    SeleniumLibrary
+Resource   ..//../Tests/suppGroupe.robot 			source du fichier qui appel se keyword
+ 
+ 
+*** Variables ***
+ 
+*** Keywords ***
+ 
+permet de supprimer un groupe
+    [Arguments]    ${ident}      
+      #   acces a la page groupes via admin
+   #  access grp search zone   
+    Click Element     ${out_admn}
+    Wait Until Element Is Visible  ${titre_adm}
+    Click Element    ${g_gr}
+    Wait Until Element Contains    ${lbl_gr}     Groupes
+   # recherche groupe par identifiant      
+  #input text  recherchegroupe 
+  Input Text    ${srch_grp}    ${ident}                        
+  Click Button    ${srch_btn_gr}
+  Clear Element Text    ${srch_grp}
+   #   CONFIRMATION    par identifiant et nom de groupe selon resultat attendu        
+    Wait Until Element Contains    ${ident_grp}     ${ident}
+    Sleep    5
+     Wait Until Element Is Visible     ${name_grp}${res}    
+# console suppresion
+    Click Element    ${sup_grp}
+    Wait Until Element Is Visible   ${sup_consol}   
+    Click Element    ${supconfirm}
+
+
+---------------
+localisateurs
+    -----------------------------------------------------------------------------------
+
+# outil admin  
+out_admn="//span[@id='HEADER_ADMIN_CONSOLE_text']/a"
+# confirm result 
+# title 
+titre_adm="//span[@title='Outils admin']"
+# gestion groupe
+g_gr="//span/a[text()='Groupes']"
+# confirm  label Groupes
+lbl_gr="//label[text()='Groupes']"	
+ #input text  recherchegroupe    fa_grrg_af
+srch_grp="//input[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-text']"
+# click  button recherche
+srch_btn_gr="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-button-button']"
+# confirm result  icontain identifier f
+ident_grp="//div[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-panel']//descendant::* "
+name_grp="//div[text()="   
+# clic result croix suppp 
+sup_grp="//a[@class='delete']"
+# suppconsole  
+sup_consol="//div[@id='page_x002e_ctool_x002e_admin-console_x0023_default-deletegroupdialog']"
+# suppbutton on consol
+supconfirm="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-remove-button-button']" 
+
+
+

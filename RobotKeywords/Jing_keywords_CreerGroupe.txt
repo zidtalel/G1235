@@ -4,57 +4,52 @@ txt_UserName="xpath=//input[@name='username']"
 # txt_UserName="name=username"
 txt_Password="name=password"
 btn_Login="xpath=//button[contains(text(), 'Connexion')]"
+# btn_Login="xpath=//button[contains(text(), 'Sign In')]"
+
 
 #Dashboard Page Elements
 lbl_Title="xpath=//h1[@id='HEADER_TITLE']/span"
 link_HeaderUserMenu="id=HEADER_USER_MENU_POPUP_text"
 link_HeaderDeconnexion="id=HEADER_USER_MENU_LOGOUT_text"
 
+
 # Menu Pricipal Elements
-link_OutilsAdmin="xpath=//a[@title='Outils admin']"
-link_Sites="xpath=//div[@id='HEADER_SITES_MENU']/span/span[@id='HEADER_SITES_MENU_text']"
+link_OutilsAdmin="xpath=//a[text()='Outils admin']"
+# btn_OutilsAdmin="LinkText=Admin Tools"
+link_Sites="//span[@id='HEADER_SITES_MENU_text']"
+
 
 # OutilsAdmin Page Elements
-link_Groupes="xpath=//a[@title='Gestion des groupes']"
+link_Groupes="xpath=//a[text()='Groupes']"
+# link_Groupes="xpath=//a[normalize-space()='Groups']"
+
 
 # Groupe Page Elements
-btn_Parcourir="xpath=(//div[@class='search-button']/span/span/button)[2]"
+btn_Parccourir="id=page_x002e_ctool_x002e_admin-console_x0023_default-browse-button-button"
+# btn_Browse="id=page_x002e_ctool_x002e_admin-console_x0023_default-browse-button-button"
 icone_nouveauGroupe="css=span[title='Nouveau groupe']"
+# "xpath=//span[@title='Nouveau groupe']"
+# icone_newGroup="xpath=//span[@title='New Group']"
+
 
 # Nouveau Groupe Page Elements
-champ_Idendifiant="xpath=(//div[@class='field-row'])[2]/input[@type='text']"
-champ_NomAffiche="xpath=(//div[@class='field-row'])[4]/input[@class='crud-input mandatory']"
-btn_CreerGroupe="xpath=//div[@class='creategroup-ok-button left']/span/span/button"
+champ_Idendifiant="id=page_x002e_ctool_x002e_admin-console_x0023_default-create-shortname"
+champ_NomAffiche="id=page_x002e_ctool_x002e_admin-console_x0023_default-create-displayname"
+btn_CreerGroupe="id=page_x002e_ctool_x002e_admin-console_x0023_default-creategroup-ok-button-button"
 
 # Sites options
 link_MesSites="xpath=//a[@title='Mes sites']"
-link_RechercheSite="xpath=//a[@href='/share/page/site-finder']"
-link_siteATester="xpath=//a[@href='/share/page/site/sitejoey' and @class]"
-link_siteATester1="xpath=//a[@href='/share/page/site/"
-link_siteATester2="' and @class]"
-
-# Rechercher Sites Page Elements
-txt_header="xpath=//span[@title='Recherche de sites']"
-champ_RechercheSite="xpath=//div[@class='search-text']/input"
-btn_RechercherSite="xpath=//div[@class='search-button']/span/span/button"
+link_siteJoey="xpath=//a[text()='siteJoey']"
 
 # Sites Page Elements
 link_Discussions="xpath=//a[@title='Discussions']"
 option_configurationDeSite="xpath=//img[@title='Options de configuration de site']"
-option_personaliserSite="xpath=//a[@title='Personnaliser le site']"
-
-# Cofiguration Page Elements
-img_DiscussionsDans1erCadre="xpath=//h2[text()='Pages du site disponibles']/following-sibling::div[2]/ul/li/div[contains(text(),'Discussions')]/preceding-sibling::img"
-placeViseDans2erCadre="//h2[text()='Pages du site actuel']/following-sibling::div[2]/ul"
-btn_ok_drapDrop="(//div[@class='buttons']/span/span/button)[1]"
+option_personaliserSite="xpath=(//a[text()='Personnaliser le site'])[1]"
 
 # Sujets Page Elements
-link_sujetSupprimer1="xpath=//a[text()='"
-link_sujetSupprimer2="']"
-option_SupprimerSujet="xpath=(//a[contains(text(),'sujetSupprimer1127')]//ancestor::div[@class='nodeContent']/preceding-sibling::div[@class='nodeEdit']/div/a)[3]"
-option_SupprimerSujet1="xpath=(//a[contains(text(),'"
-option_SupprimerSujet2="')]//ancestor::div[@class='nodeContent']/preceding-sibling::div[@class='nodeEdit']/div/a)[3]"
-btn_Supprimer="xpath=(//div[@class='ft']/span/span/span/button)[1]"
+link_sujetSupprimer="xpath=//a[text()='sujetSupprimer1127']"
+option_SupprimerSujet="xpath=//a[text()='Supprimer']"
+btn_Supprimer="xpath=//button[text()='Supprimer']"
 
 
 *** Variables ***
@@ -71,17 +66,14 @@ ${vSitesForDelFileName}    ListeSup.txt
 ${vChampIden}    groupeJoey
 # + @{datetime}
 ${vChampNomAffi}    groupeJoey
-${vNomSite}    sitejoey
-${vNomSujet}    sujetSupprimer1127
 
 
 CreerGroupe
-    [Documentation]    Creer un nouveau groupe
     [Arguments]    ${vChampIden}    ${vChampNomAffi}
     Click Element    ${link_OutilsAdmin}
     Click Element    ${link_Groupes}
-    Wait Until Element Is Visible    ${btn_Parcourir}
-    Click Button    ${btn_Parcourir}
+    Wait Until Element Is Visible    ${btn_Parccourir}
+    Click Button    ${btn_Parccourir}
     Wait Until Element Is Visible    ${icone_nouveauGroupe}
     Click Element    ${icone_nouveauGroupe}
     Input text    ${champ_Idendifiant}    ${vChampIden}

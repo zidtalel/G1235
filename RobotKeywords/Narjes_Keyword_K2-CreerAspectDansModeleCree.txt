@@ -1,9 +1,13 @@
+# Page Outils Admin - Gestionnaire de modele
+# localisateurModele1 = "xpath://span[text()='"   
+# localisateurModele2 = "']"
+
+
 ***Settings***
 Library     SeleniumLibrary
-
+Variables    ../Locator/Locators.py
 *** Variables ***
-${txt_modele}    Djemaie05
-${localisateurModele}    (//span[contains(text(),'Djemaie05')])[1]
+${Vtxt_modele}    Djemaie05
 ${CreerAspect}    xpath://span[text()='Créer un aspect'] 
 ${InputNewAspect}    name:name
 ${txt_newAspect}    SQL 
@@ -13,23 +17,25 @@ ${InputDescription}    xpath://div[2]/div/textarea
 ${txt_Description}    New AspectK2
 ${ClickConfirmation}    xpath://*[@id="CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label"]
 ${vURL}    http://localhost:8099/share/page
+
+
+
+
 ***Keywords***
 CreerAspectK2
      [Documentation]    
     ...    Se connecter sur l`application Alfersco avec un compte adminstrateur 
     ...    Avoir un modele cree
-    
-    #${txt_modele} : contient le nom du modele 
-     
-     
 
+    #${Vtxt_modele} : contient le nom du modele 
 # Preconditions
     ## etre connecter avec un compte administrateur
-    ## etre sur la page d'accueil suite à la connexion
+    ##  Avoir un modele cree (${Vtxt_modele})
     
 
-     # txt_newModel est le modele choisi et txt_newAspect le nom du nouvel aspect a creer
-    [Arguments]     ${txt_modele}     ${txt_newAspect}   ${txt_EtiquetteAffichage}       ${txt_Description} 
+
+    # ${txt_modele} contient le modele choisi et ${txt_newAspect} le nom du nouvel aspect a creer 
+    [Arguments]     ${Vtxt_modele}     ${txt_newAspect}   ${txt_EtiquetteAffichage}       ${txt_Description} 
 
     # S'assurer que la page est chargee 
     Wait Until Element Is Visible    xpath://*[@id="HEADER_ADMIN_CONSOLE_text"]/a
@@ -39,11 +45,11 @@ CreerAspectK2
     Click Element      xpath://*[@id="page_x002e_tools_x002e_admin-console_x0023_default-body"]/ul[1]/li[7]/span/a
     #S'assurer que la page est chargee et contient le Modele choisi
     Sleep    2
-    Wait Until Element Is Visible    ${localisateurModele} 
+    Wait Until Element Is Visible    ${localisateurModele1}${Vtxt_modele}${localisateurModele2}
     Sleep   3
     #cliquer sur le modéle choisi
     
-    Click Element       ${localisateurModele}
+    Click Element       ${localisateurModele1}${Vtxt_modele}${localisateurModele2}
     # S'assurer que la page est chargee 
     Sleep    3
     Wait Until Element Is Visible    ${CreerAspect}  

@@ -1,9 +1,11 @@
+#precondition creer un element avec un nom unique dans une liste 
+
 #1er keyword créer un nouveau sujet
 
 #cliquer un site
 Link_header_site="xpath://span[@id='HEADER_SITES_MENU_text']"
-site="xpath://a[@title='Sparrow2_site']"
-
+link1_site="xpath://a[@title='"
+link2_site="']"
 #cliquer un lien discussion
 Link__plus="xpath://span[@id='HEADER_SITE_MORE_PAGES_text']"
 discussion="xpath://a[@title='Discussions']"
@@ -19,32 +21,33 @@ btn_Sujet="id=template_x002e_createtopic_x002e_discussions-createtopic_x0023_def
 #supprimer un sujet
 btn_supprimer="xpath://a[text()='Supprimer']"   
 btn_conf_supp="xpath://button[text()='Supprimer']" 
+ 
 
 
 keywords
 
 
 OuvrirSite
-    [Arguments]    ${Link_header_site}    ${site}    
+    [Arguments]    ${site}    
     #cliquer sur l'element site 
     Click Element    ${Link_header_site}
-    Wait Until Element Is Visible    ${site}
+    Wait Until Element Is Visible    ${link1_site}${site}${link2_site}
     #choisir Site
-    Click Element    ${site}
+    Click Element    ${link1_site}${site}${link2_site}
     #Mouse Over    locator
     
-   
+clickBouttonPlus
+    Click Element    ${Link__plus}   
 
 OuvrirDiscussion
-    [Arguments]    ${Link__plus}    ${discussion}
-#chercher le lien discussion
+    #chercher le lien discussion
     Click Element    ${Link__plus}
     Wait Until Element Is Visible    ${discussion}
     Click Element    ${discussion}
 
 CreerNouveauSujet
     [Documentation]    création du un sujet dansun site
-    [Arguments]    ${Link_discussion}    ${Titre}    ${Txt}    ${frameCreationSujet}    ${txt_sujet}    ${btn_Sujet}   
+    [Arguments]    ${Txt}   
     #Wait Until Element Is Visible    ${Link_discussion}
     Click Button    ${Link_discussion} 
     Wait Until Element Is Visible    ${Titre}
@@ -52,23 +55,26 @@ CreerNouveauSujet
     Sleep    2
     Select Frame    ${frameCreationSujet} 
     Input Text    ${txt_sujet}    ${Txt}
-    Capture Page Screenshot    ./Screenshot/Noveausujet.png 
+    #prendre une preuve que le sujet a ete cree
+    #Capture Page Screenshot    ./Screenshot/Noveausujet.png 
     Unselect Frame 
     Click Button    ${btn_Sujet}
 
 
 
 VerifierSujet
-    [Documentation]    capture de d ecarn pour preuve de creation 
+    [Documentation]    capture  d ecran comme preuve de creation 
     Sleep    2
     Capture Page Screenshot    ./Screenshot/preuveCreationSujet.png
     
-
+#postcondition
 SupprimerSujet
-    [Arguments]    ${btn_supprimer}    ${btn_conf_supp}
+    [Arguments]    ${nomElement}
     Wait Until Element Is Visible    ${btn_supprimer}
     Click Element    ${btn_supprimer}
     Wait Until Element Is Visible    ${btn_conf_supp}
     Click Element    ${btn_conf_supp}
     Sleep    2
     Capture Page Screenshot    ./Screenshot/preuvesupression.png 
+    Page Should Not Contain    ${nomElement}
+    

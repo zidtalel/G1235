@@ -1,4 +1,7 @@
 2eme keyword
+#precondition1: une Liste au non "Liste de donné1" doit etre créé  
+#précondition2: au moins un element s'affiche dans la liste avec un nom unique
+
 Supprimer list de données 
 
 locateurs
@@ -10,28 +13,37 @@ locateurs
 #lien btn liste de donnee
 Link_ListeD="xpath://div[@id='HEADER_SITE_DATA-LISTS']"
 #supprimer une liste de donnée
-link_documentAsupp="xpath=//a[normalize-space()='Liste de donné1']"
+link_documentAsupp1="xpath=//a[normalize-space()='"
+link_documentAsupp2="']"
 
-enable_hidden_btn="//td[@headers='yui-dt5-th-actions ']"
+enable_hidden_btn1="//div[text()='"
+enable_hidden_btn2="']/ancestor::tr/td[@headers='yui-dt5-th-actions ']"
 btn_supp_Action="xpath://span[@class='button-group']/span/span" 
-#btn_supp_Action="xpath://td[@headers='yui-dt5-th-prop_dl_contactFirstName ']/div[text()='HICHEM']/ancestor::td/following-sibling::td[@headers='yui-dt5-th-actions ']//a[@title='Supprimer']"
+estor::td/following-sibling::td[@headers='yui-dt5-th-actions ']//a[@title='Supprimer']"
 btn_supprimer_liste="xpath://td[@class='yui-dt5-col-actions yui-dt-col-actions yui-dt-last']/div/div/div/div[@class='onActionDelete']/a[@rel='delete']"
 
 
-keywords
+
+#2eme keyword
+
 
 OuvrirListeDonnee
+    [Arguments]    ${NomListe}
     Wait Until Element Is Visible    ${Link_ListeD}
     Click Element    ${Link_ListeD}
-    Click Element    ${link_documentAsupp}
-SupprimerListDonnee
-    
-    Wait Until Element Is Visible    ${enable_hidden_btn}
-    Mouse Over    ${enable_hidden_btn}
+    Click Element    ${link_documentAsupp1}${NomListe}${link_documentAsupp2}
+
+SupprimerElement
+    [Arguments]    ${nomElement}
+
+    Wait Until Element Is Visible    ${enable_hidden_btn1}${nomElement}${enable_hidden_btn2}
+    Mouse Over    ${enable_hidden_btn1}${nomElement}${enable_hidden_btn2}
+    Sleep    2
     Wait Until Element Is Visible    ${btn_supprimer_liste} 
     Click Element    ${btn_supprimer_liste}  
     Wait Until Element Is Visible    ${btn_supp_Action} 
     Click Element    ${btn_supp_Action}
-    
-  
 
+verifier element supprime
+    [Arguments]    ${nomElement}
+    Page Should Not Contain    ${nomElement} 

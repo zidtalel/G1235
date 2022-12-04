@@ -1,0 +1,67 @@
+Locators.py
+
+# Menu Pricipal Elements
+link_OutilsAdmin="xpath=//a[@title='Outils admin']"
+link_Sites="xpath=//div[@id='HEADER_SITES_MENU']/span/span[@id='HEADER_SITES_MENU_text']"
+
+# Sites options
+link_MesSites="xpath=//a[@title='Mes sites']"
+link_RechercheSite="xpath=//a[@href='/share/page/site-finder']"
+link_siteATester="xpath=//a[@href='/share/page/site/sitejoey' and @class]"
+link_siteATester1="xpath=//a[@href='/share/page/site/"
+link_siteATester2="' and @class]"
+
+# Rechercher Sites Page Elements
+txt_header="xpath=//span[@title='Recherche de sites']"
+champ_RechercheSite="xpath=//div[@class='search-text']/input"
+btn_RechercherSite="xpath=//div[@class='search-button']/span/span/button"
+
+# Sites Page Elements
+link_Discussions="xpath=//a[@title='Discussions']"
+link_Plus="xpath=//span[@id='HEADER_SITE_MORE_PAGES_text']"
+option_configurationDeSite="xpath=//img[@title='Options de configuration de site']"
+option_personaliserSite="xpath=//a[@title='Personnaliser le site']"
+
+# Cofiguration Page Elements
+img_DiscussionsDans1erCadre="xpath=//li/input[@value='discussions-topiclist']/following-sibling::img"
+placeDans2erCadre="xpath=//ul[contains(@id,'currentPages')]"
+btn_ok_drapDrop="xpath=//button[contains(@id,'save-button')]"
+
+
+*** Variables ***
+
+# attention: faut donner la valeur de nom de site tous sont minuscule, meme si le nom du site contiens majuscule.
+# et si dans le nom de site y a espace, utiliser '-' le remplacer. 
+# par example: 'Site pour Yeni' on ecrit la valeur: 'site-pour-yeni'
+${vNomSite}    sitejoey
+
+
+*** Keywords ***
+ConfigurerDiscussions
+    [Documentation]    Personnaliser l'affichage des liens du site pour 'Discussion' serait visible（directment ou sous options 'plus'）
+    [Arguments]    ${vNomSite}
+    Click Element    ${link_Sites}
+    # rechercher le site precis
+    Wait Until Element Is Visible    ${link_RechercheSite}
+    Click Element    ${link_RechercheSite}
+    Wait Until Element Is Visible    ${txt_header}
+    Input Text    ${champ_RechercheSite}    ${vNomSite}
+    Click Button    ${btn_RechercherSite}
+    # cliquer le site precis pour entrer la page du site
+    Wait Until Element Is Visible    ${link_siteATester1}${vNomSite}${link_siteATester2}
+    Click Element    ${link_siteATester1}${vNomSite}${link_siteATester2}
+    # aller configuration
+    Wait Until Element Is Visible    ${option_configurationDeSite}
+    Click Element    ${option_configurationDeSite}
+    # aller personnaliser le site
+    Wait Until Element Is Visible    ${option_personaliserSite}
+    Click Element    ${option_personaliserSite}
+    # deplacer 'Discussions' de 'page du site disponible' a 'page du site actuel'
+    Wait Until Element Is Visible    ${img_DiscussionsDans1erCadre}
+    Drag And Drop    ${img_DiscussionsDans1erCadre}    ${placeDans2erCadre}
+    Sleep    3s
+    Click Button    ${btn_ok_drapDrop}
+    sleep    3s
+    
+	***
+    

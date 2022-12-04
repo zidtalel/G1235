@@ -1,86 +1,75 @@
-#Login Page Elements
-textPageConnexion="xpath=//div[@class='product-name']"
-txt_UserName="xpath=//input[@name='username']"
-# txt_UserName="name=username"
-txt_Password="name=password"
-btn_Login="xpath=//button[contains(text(), 'Connexion')]"
-# btn_Login="xpath=//button[contains(text(), 'Sign In')]"
-
-
-#Dashboard Page Elements
-lbl_Title="xpath=//h1[@id='HEADER_TITLE']/span"
-link_HeaderUserMenu="id=HEADER_USER_MENU_POPUP_text"
-link_HeaderDeconnexion="id=HEADER_USER_MENU_LOGOUT_text"
-
+Locators.py
 
 # Menu Pricipal Elements
-link_OutilsAdmin="xpath=//a[text()='Outils admin']"
-# btn_OutilsAdmin="LinkText=Admin Tools"
-link_Sites="//span[@id='HEADER_SITES_MENU_text']"
-
-
-# OutilsAdmin Page Elements
-link_Groupes="xpath=//a[text()='Groupes']"
-# link_Groupes="xpath=//a[normalize-space()='Groups']"
-
-
-# Groupe Page Elements
-btn_Parccourir="id=page_x002e_ctool_x002e_admin-console_x0023_default-browse-button-button"
-# btn_Browse="id=page_x002e_ctool_x002e_admin-console_x0023_default-browse-button-button"
-icone_nouveauGroupe="css=span[title='Nouveau groupe']"
-# "xpath=//span[@title='Nouveau groupe']"
-# icone_newGroup="xpath=//span[@title='New Group']"
-
-
-# Nouveau Groupe Page Elements
-champ_Idendifiant="id=page_x002e_ctool_x002e_admin-console_x0023_default-create-shortname"
-champ_NomAffiche="id=page_x002e_ctool_x002e_admin-console_x0023_default-create-displayname"
-btn_CreerGroupe="id=page_x002e_ctool_x002e_admin-console_x0023_default-creategroup-ok-button-button"
+link_OutilsAdmin="xpath=//a[@title='Outils admin']"
+link_Sites="xpath=//div[@id='HEADER_SITES_MENU']/span/span[@id='HEADER_SITES_MENU_text']"
 
 # Sites options
 link_MesSites="xpath=//a[@title='Mes sites']"
-link_siteJoey="xpath=//a[text()='siteJoey']"
+link_RechercheSite="xpath=//a[@href='/share/page/site-finder']"
+link_siteATester="xpath=//a[@href='/share/page/site/sitejoey' and @class]"
+link_siteATester1="xpath=//a[@href='/share/page/site/"
+link_siteATester2="' and @class]"
+
+# Rechercher Sites Page Elements
+txt_header="xpath=//span[@title='Recherche de sites']"
+champ_RechercheSite="xpath=//div[@class='search-text']/input"
+btn_RechercherSite="xpath=//div[@class='search-button']/span/span/button"
 
 # Sites Page Elements
 link_Discussions="xpath=//a[@title='Discussions']"
-option_configurationDeSite="xpath=//img[@title='Options de configuration de site']"
-option_personaliserSite="xpath=(//a[text()='Personnaliser le site'])[1]"
+link_Plus="xpath=//span[@id='HEADER_SITE_MORE_PAGES_text']"
 
 # Sujets Page Elements
-link_sujetSupprimer="xpath=//a[text()='sujetSupprimer1127']"
-option_SupprimerSujet="xpath=//a[text()='Supprimer']"
-btn_Supprimer="xpath=//button[text()='Supprimer']"
+link_sujetSupprimer1="xpath=//a[text()='"
+link_sujetSupprimer2="']"
+#option_SupprimerSujet="xpath=//a[contains(text(),'sujetSupprimer1127')]//ancestor::div[@class='nodeContent']/preceding-sibling::div[@class='nodeEdit']/div[@class='onDeleteTopic']/a"
+option_SupprimerSujet1="xpath=//a[contains(text(),'"
+option_SupprimerSujet2="')]//ancestor::div[@class='nodeContent']/preceding-sibling::div[@class='nodeEdit']/div[@class='onDeleteTopic']/a"
+btn_Supprimer="xpath=//div[@class='ft']/span/span[contains(@class,'primary-button')]/span/button"
 
 
 *** Variables ***
-${vURL}    http://localhost:8988/share/page/
-${vBrowser}    chrome
-${vUsername}    2203408
-${vPassword}    12345678
-${TIMEOUT}    5s
-${Ligne}
-${vSitesFileName}    ListeSites.txt
-${vSitesForDelFileName}    ListeSup.txt
-@{NomSites}
-# @{datetime}    Get Current Date
-${vChampIden}    groupeJoey
-# + @{datetime}
-${vChampNomAffi}    groupeJoey
+# attention: faut donner la valeur de nom de site tous sont minuscule, meme si le nom du site contiens majuscule.
+# et si dans le nom de site y a espace, utiliser '-' le remplacer. 
+# par example: 'Site pour Yeni' on ecrit la valeur: 'site-pour-yeni'
+${vNomSite}    sitejoey
+${vNomSujet}    sujetSupprimer1127
 
 
 SupprimerSujetDansDiscussionDeSite
     [Documentation]    Supprimer un sujet dans une discussion (dans un site déjà créé)
+    [Arguments]    ${vNomSite}    ${vNomSujet}
     Click Element    ${link_Sites}
-    Wait Until Element Is Visible    ${link_MesSites}
-    Click Element    ${link_MesSites}
-    Element Should Contain     ${link_siteJoey}    siteJoey
-    Click Element    ${link_siteJoey}
+    # rechercher le site precis
+    Wait Until Element Is Visible    ${link_RechercheSite}
+    Click Element    ${link_RechercheSite}
+    Wait Until Element Is Visible    ${txt_header}
+    Input Text    ${champ_RechercheSite}    ${vNomSite}
+    Click Button    ${btn_RechercherSite}
+    # cliquer le site precis pour entrer la page du site
+    Wait Until Element Is Visible    ${link_siteATester1}${vNomSite}${link_siteATester2}
+    Click Element    ${link_siteATester1}${vNomSite}${link_siteATester2}
+    Sleep    5s
+    # option 'Discussions' soit apparu ou directment ou sous option 'plus'(comme precondition,(Keywords :CofigurerDiscussion))
+    # si 'Discussions' ne soit pas apparu directment, aller cliquer 'plus' pour le trouver
+    ${IsDiscussionsVisible}    Run Keyword And Return Status    Element Should Not Be Visible    ${link_Discussions}
+    IF    ${IsDiscussionsVisible}
+        Page Should Contain Element    ${link_Plus}
+        Click Element    ${link_Plus}
+    END
     Wait Until Element Is Visible    ${link_Discussions}
     Click Element    ${link_Discussions}
-    Sleep    5s
-    # Wait Until Element Is Visible    ${link_sujetSupprimer}
-    Click Element    ${link_sujetSupprimer}
-    Wait Until Element Is Visible    ${option_SupprimerSujet}
-    Click Element    ${option_SupprimerSujet}
+    Sleep    3s
+    # 1er chemin de supprimer un sujet
+    # cliquer directment l'option 'Supprimer' dans le cadre de sujet precis puis le supprimer
+    Wait Until Element Is Visible    ${option_SupprimerSujet1}${vNomSujet}${option_SupprimerSujet2}
+    Click Element    ${option_SupprimerSujet1}${vNomSujet}${option_SupprimerSujet2}
     Wait Until Element Is Visible    ${btn_Supprimer}
     Click Button    ${btn_Supprimer}
+    # 2er chemin de supprimer un sujet
+    # cliquer le sujet precis 
+    # Wait Until Element Is Visible    ${link_sujetSupprimer1}${vNomSujet}${link_sujetSupprimer2}
+    # Click Element    ${link_sujetSupprimer1}${vNomSujet}${link_sujetSupprimer2}
+	
+	***

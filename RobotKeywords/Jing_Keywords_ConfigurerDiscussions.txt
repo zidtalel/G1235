@@ -63,4 +63,5 @@ ConfigurerDiscussions
     Click Button    ${btn_ok_drapDrop}
     sleep    3s
     
+	***
     

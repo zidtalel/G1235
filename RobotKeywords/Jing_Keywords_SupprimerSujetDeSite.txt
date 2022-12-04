@@ -71,3 +71,5 @@ SupprimerSujetDansDiscussionDeSite
     # cliquer le sujet precis 
     # Wait Until Element Is Visible    ${link_sujetSupprimer1}${vNomSujet}${link_sujetSupprimer2}
     # Click Element    ${link_sujetSupprimer1}${vNomSujet}${link_sujetSupprimer2}
+	
+	***

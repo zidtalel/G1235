@@ -39,3 +39,5 @@ CreerGroupe
     Input text    ${champ_Idendifiant}    ${vChampIden}
     Input text    ${champ_NomAffiche}    ${vChampNomAffi}
     Click Button    ${btn_CreerGroupe}
+	
+	***

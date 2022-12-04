@@ -1,0 +1,92 @@
+#Login Page Elements
+txt_UserName="username"
+txt_Password="password"
+btn_Login="page_x002e_components_x002e_slingshot-login_x0023_default-submit-button"
+
+
+#Dashboard Page Elements
+lblTitle="HEADER_TITLE"
+link_HeaderUserMenu="id=HEADER_USER_MENU_POPUP_text"
+link_HeaderDeconnexion="id=HEADER_USER_MENU_LOGOUT_text"
+link_MesFichiers="xpath=//a[@title='Mes fichiers']"
+
+#Créer une régle
+Mouse_Position= "id=yui-rec44"
+link_Plus="partial link:Plus"
+link_GererRegle="partial link:Gérer les règles"
+Btn_NouvelleRégle="template_x002e_rules-header_x002e_folder-rules_x0023_default-newRule-button-button"
+Nom="template_x002e_rule-edit_x002e_rule-edit_x0023_default-title"
+Description="template_x002e_rule-edit_x002e_rule-edit_x0023_default-description"
+liste_quand="alf-id2"
+ExecuterActionListe="alf-id11"
+Btn_créer="template_x002e_rule-edit_x002e_rule-edit_x0023_default-create-button-button"
+
+
+#logout
+Déconnexion="td[@id='HEADER_USER_MENU_LOGOUT_text']"
+
+*** Settings ***
+Documentation     keywrds pour créer une régle
+Library    SeleniumLibrary
+Library    XML
+Variables    ../Locators/Locators.py
+
+*** Variables ***
+${vURL}    http://localhost:8985/share/page/
+${vBrowser}    chrome
+${vUsername}    2225157
+${vPassword}    12345678
+${TIMEOUT}    5s
+
+*** Keywords ***
+Login
+    # vURL contient l'adresse URL de la page web
+    # vBrowser contient l'identifiant du navigateur cible
+    # vUsername contient le login
+    # vPassword contient le mot de passe
+    [Arguments]    ${vURL}    ${vBrowser}    ${vUsername}    ${vPassword}
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}
+    # Ouvrir le navigateur en precisant l'URL et le navigateur
+    Open Browser    ${vURL}    ${vBrowser}
+    # Maximiser la fenetre du navigateur
+    Maximize Browser Window
+    # Saisie du login
+    Input text    ${txt_UserName}    ${vUsername}
+    # Saisie du mot de passe    
+    Input text    ${txt_Password}    ${vPassword}
+    # Click sur le bouton Connexion
+    Click Button   ${btn_Login}
+    # S'assurer que la page est chargee
+    Wait Until Element Is Visible    ${lblTitle}
+    # S'assurer que l'utilisateur est connecte et que le tableau de bord est affiche
+    Element Should Contain     ${lblTitle}    Tableau de bord de
+
+créer régle
+    # Cliquer sur le lien Mes fichiers
+    Click Element    ${link_MesFichiers}
+    Wait Until Element Is Visible     ${link_MesFichiers}
+    Mouse Over    ${Mouse_Position}
+    Element Should Contain    ${Mouse_Position}    Plus
+    Click Element    ${link_Plus}
+    Click Element    ${link_GererRegle}
+    Click Button    ${Btn_NouvelleRégle}
+    Sleep    2s
+    Input Text    ${Nom}    Régle pour tester l'automatisation
+    Input Text    ${Description}    Ceci est un keywords élaboré a l'occasion de l'automatisation
+    Click Element    ${liste_quand}
+    Click Element    //option[@value="update"]
+    Click Element    ${ExecuterActionListe}
+    Click Element    //option[@value="script"]
+    Click Button    ${Btn_créer}
+    Sleep    2
+    
+Logout
+    Click Element    //span[@id='HEADER_USER_MENU_POPUP_text']
+    Sleep    2
+    Click Element    //td[@id='HEADER_USER_MENU_LOGOUT_text']
+
+fermeture navigateur
+    Close All Browsers
+    
+    

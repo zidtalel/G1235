@@ -1,0 +1,72 @@
+#cliquer un site
+Link_header_site="xpath://span[@id='HEADER_SITES_MENU_text']"
+site="xpath://a[@title='Sparrow2_site']"
+
+#cliquer un lien discussion
+Link__plus="xpath://span[@id='HEADER_SITE_MORE_PAGES_text']"
+discussion="xpath://a[@title='Discussions']"
+
+#lien du boutton discussion
+Link_discussion="id:template_x002e_toolbar_x002e_discussions-topiclist_x0023_default-create-button-button"
+
+#créer un sujet
+Titre="id:template_x002e_createtopic_x002e_discussions-createtopic_x0023_default-title"              
+frameCreationSujet="id:template_x002e_createtopic_x002e_discussions-createtopic_x0023_default-content_ifr"
+txt_sujet="id:tinymce"
+btn_Sujet="id=template_x002e_createtopic_x002e_discussions-createtopic_x0023_default-submit-button"
+#supprimer un sujet
+btn_supprimer="xpath://a[text()='Supprimer']"   
+btn_conf_supp="xpath://button[text()='Supprimer']" 
+
+
+keywords
+
+
+OuvrirSite
+    [Arguments]    ${Link_header_site}    ${site}    
+    #cliquer sur l'element site 
+    Click Element    ${Link_header_site}
+    Wait Until Element Is Visible    ${site}
+    #choisir Site
+    Click Element    ${site}
+    #Mouse Over    locator
+    
+   
+
+OuvrirDiscussion
+    [Arguments]    ${Link__plus}    ${discussion}
+#chercher le lien discussion
+    Click Element    ${Link__plus}
+    Wait Until Element Is Visible    ${discussion}
+    Click Element    ${discussion}
+
+CreerNouveauSujet
+    [Documentation]    création du un sujet dansun site
+    [Arguments]    ${Link_discussion}    ${Titre}    ${Txt}    ${frameCreationSujet}    ${txt_sujet}    ${btn_Sujet}   
+    #Wait Until Element Is Visible    ${Link_discussion}
+    Click Button    ${Link_discussion} 
+    Wait Until Element Is Visible    ${Titre}
+    Input Text    ${Titre}    ${Txt}
+    Sleep    2
+    Select Frame    ${frameCreationSujet} 
+    Input Text    ${txt_sujet}    ${Txt}
+    Capture Page Screenshot    ./Screenshot/Noveausujet.png 
+    Unselect Frame 
+    Click Button    ${btn_Sujet}
+
+
+
+VerifierSujet
+    [Documentation]    capture de d ecarn pour preuve de creation 
+    Sleep    2
+    Capture Page Screenshot    ./Screenshot/preuveCreationSujet.png
+    
+
+SupprimerSujet
+    [Arguments]    ${btn_supprimer}    ${btn_conf_supp}
+    Wait Until Element Is Visible    ${btn_supprimer}
+    Click Element    ${btn_supprimer}
+    Wait Until Element Is Visible    ${btn_conf_supp}
+    Click Element    ${btn_conf_supp}
+    Sleep    2
+    Capture Page Screenshot    ./Screenshot/preuvesupression.png 

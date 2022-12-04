@@ -1,0 +1,25 @@
+#Locators
+#Formulaire Creer Site Elements
+txt_NomSite="name=title"
+txt_DesSite="xpath=//textarea[@name='description'][@class='dijitTextBox dijitTextArea']"
+txt_BtCreerSite="id=CREATE_SITE_DIALOG_OK_label"
+
+*** Variables ***
+${TIMEOUT}    5s
+${vNomSite}    SiteTestAmina01234005569
+${vDesSite}    SiteTestAmina
+
+Creer un site
+    # CLIQUER SUR MENU SITES
+    Click Element    ${txt_MenuSite}
+    wait until element is visible  ${txt_MenuCreerSite}
+    Click Element    ${txt_MenuCreerSite}
+    # REMPLIR LE FORMULAIRE CEARTION DU SITE
+    Input Text    ${txt_NomSite}    ${vNomSite}
+    Input Text    ${txt_DesSite}    ${vDesSite}
+    Sleep    2
+    Click Element    ${txt_BtCreerSite}
+    Sleep    2
+    # VERIFIER QUE LE SITE EST AJOUTEE
+    Wait Until Page Contains    ${vNomSite}    timeout=10s 
+    Page Should Contain    ${vNomSite} 

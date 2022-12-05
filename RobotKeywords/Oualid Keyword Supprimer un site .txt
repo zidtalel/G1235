@@ -1,0 +1,31 @@
+#Cliquer sur le lien site de l'equipe 2
+link_site_pour_supprimer="xpath=//*[@id='template_x002e_user-sites_x002e_user-sites_x0023_default-sites']/li[2]/p/a"
+#cliquer le bouton de configuration
+configuration_btn="xpath=//*[@id='HEADER_SITE_CONFIGURATION_DROPDOWN']/img"
+
+#Selectionner option supprimer le site 
+link_delete="xpath=//*[@id='HEADER_DELETE_SITE_text']"
+
+#Cliquer sur le bouton ok de confirmation
+ok_btn="xpath=//*[@id='ALF_SITE_SERVICE_DIALOG_CONFIRMATION_label']"
+
+
+
+
+
+
+
+
+
+Supprimer un site 
+    [Arguments]    ${Sites}
+    Click Element    ${link_sites}
+    Wait Until Element Is Visible    ${link_Messites} 
+    Click Element    ${link_Messites}    
+    Click link    ${link_site_pour_supprimer}
+    Wait Until Element Is Visible    ${configuration_btn}
+    Click Element    ${configuration_btn}
+   
+    Click Element    ${link_delete}
+  
+    Click Element    ${ok_btn}

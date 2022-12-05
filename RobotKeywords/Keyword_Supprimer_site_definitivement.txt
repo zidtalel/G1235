@@ -26,6 +26,11 @@ Variables    ../Locators/Locators_SupprimerSiteDefinitivement.py
 
 
 *** Variables ***
+# SVP, faites la conditions suivantes pour saisir le nom du site : seulement les lettres minuscules, 
+# gardez le tire (n'importe quoi le nombre)
+# les espaces doivent remplaces par tire (-), omettez les caracteres specials (!, @, ", ), (, /, ",", ".") )
+${vSitename}     
+
 
 *** Keywords ***
 Supprimer un site definitivement

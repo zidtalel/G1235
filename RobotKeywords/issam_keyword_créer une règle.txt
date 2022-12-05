@@ -1,0 +1,69 @@
+Locators_keyword_créer une règle
+
+link_Fichiers_Partagés="//a[@title='Fichiers partagés']"
+Mouse_Position1="//a[contains(text(),'"
+Mouse_Position2="')]"
+Nom_dossier_cible="casdossier1"
+link_Plus="partial link:Plus"
+link_GererRegle="partial link:Gérer les règles"
+Link_créer_régle="//a[normalize-space()='Créer des règles']"
+Btn_NouvelleRégle="//div/span/span/span/button[contains(text(),'Nouvelle Règle')]"
+
+# Éléments relatif a la création de la règle via bouton (existance de règle et on veut en ajouter d'autres)
+Nom="template_x002e_rule-edit_x002e_rule-edit_x0023_default-title"
+Description="template_x002e_rule-edit_x002e_rule-edit_x0023_default-description"
+ExecuterActionListe="alf-id11"
+Btn_créer="template_x002e_rule-edit_x002e_rule-edit_x0023_default-create-button-button"
+
+# Éléments relatif a la création de la règle via le lien (première règle à créer)
+Link_créer_régle="//a[contains(text(),'Créer des règles')]"
+
+
+
+
+Keyword Créer une règle
+
+Créer une régle    
+    [Arguments]    ${Nom_dossier_cible}
+    # Acceder au lien fichiers partagés
+    Click Element    ${link_Fichiers_Partagés}
+    Sleep    3
+    # Survoler la zone du dossier cible a fin de faire apparaitre la liste des options
+    Mouse Over    ${Mouse_Position1}${Nom_dossier_cible}${Mouse_Position2}
+    # Cliquer sur le mot (plus) pour afficher d'autres options
+    Click Element    ${link_Plus}
+    # Acceder a la page de gestion des règles
+    Click Element    ${link_GererRegle}
+    Sleep    2
+    # verifier s'il s'agit de créer une règle pour la première fois ou ajouter une autre règle
+    ${Elément_existance}    Run Keyword And Return Status    Element Should Be Visible    ${Btn_NouvelleRégle}
+    # Création d'une règle pour la première fois
+    IF    "${Elément_existance}" == "True"
+        Log To Console    bouton existant
+        Click Button    ${Btn_NouvelleRégle}
+        Sleep    2
+        # Remplir le formulaire de création d'une règle
+        formulaire création de règle
+        # Ajout d'une règle
+    ELSE
+        Log To Console    bouton n'exite pas, passer via le lien
+        Click Link    ${Link_créer_régle}
+        Sleep    2
+        # Remplir le formulaire de création d'une règle
+        formulaire création de règle   
+    END
+    
+formulaire création de règle
+        # Nom de la règle
+        Input Text    ${Nom}    Régle pour tester l'automatisation
+        Sleep    2
+        # Description de la règle
+        Input Text    ${Description}    Ceci est un keywords élaboré a l'occasion de l'automatisation
+        Sleep    2
+        Click Element    //option[@value="update"]
+        Sleep    2
+        Click Element    ${ExecuterActionListe}
+        Sleep    2
+        Click Element    //option[@value="script"]
+        Click Button    ${Btn_créer}
+        Sleep    4

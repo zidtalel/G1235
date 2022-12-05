@@ -1,0 +1,51 @@
+#Element calendrier
+link_Calendrier="xpath=//*[@id='HEADER_SITE_CALENDAR_text']/a"
+
+#cliquer sur le bouton ajouter un evenement 
+btn_Ajouter_un_evenement="xpath=//*[@id='Share']"
+
+#Ajouter un evenement 
+champs_quoi="xpath=//*[@id='eventEditPanel-title']"
+champs_ou="xpath=//*[@id='eventEditPanel-location']"
+champs_description="xpath=//*[@id='eventEditPanel-description']"
+cocher_lacase="xpath=//*[@id='eventEditPanel-allday']"
+calendrier_debut_btn="xpath=//*[@id='calendarpicker-button']"
+debut_date="xpath=//*[@id='buttoncalendar_cell30']/a"
+calendrier_fin_btn="xpath=//*[@id='calendarendpicker-button']"
+fin_date="xpath=//*[@id='buttoncalendar_cell30']/a"
+champs_tags="xpath=//*[@id='eventEditPanel-tag-input-field']"
+ajouter_btn="xpath=//*[@id='eventEditPanel-add-tag-button-button']"
+enregistrer_btn="xpath=//*[@id='eventEditPanel-ok-button']"
+
+
+
+
+
+
+
+
+
+
+
+Créer un évènement (dans un site déjà créé)
+    #Cliquer sur l'element sites
+    [Arguments]    ${Nom_Sites}    ${v_quoi}    ${v_ou}    ${v_description}    ${v_tags}           
+    Click Element    ${link_sites}
+    Wait Until Element Is Visible    ${link_Messites} 
+    Click Element    ${link_Messites} 
+    Click Link    ${link_NomSites}
+    Wait Until Element Is Visible    ${link_Calendrier}
+    Click Element    ${link_Calendrier}    
+    Click Element    ${btn_Ajouter_un_evenement}
+    Wait Until Element Is Visible    ${champs_quoi}
+    Input Text    ${champs_quoi}    ${v_quoi}
+    Input Text    ${champs_ou}    ${v_ou}
+    Input Text    ${champs_description}    ${v_description}
+    Click Element    ${cocher_lacase}
+    Click Element    ${calendrier_debut_btn}
+    Click Element    ${debut_date}
+    Click Element    ${calendrier_fin_btn}
+    Click Element    ${fin_date}
+    Input Text    ${champs_tags}    ${v_tags}
+    Click Button    ${ajouter_btn}
+    Click Button    ${enregistrer_btn}

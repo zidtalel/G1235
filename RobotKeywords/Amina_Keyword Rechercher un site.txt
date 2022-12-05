@@ -1,4 +1,6 @@
-#locators de keyword recherche site
+#les localisateurs:
+
+#locators pour recherche d un site 
 link_MenuSite="//span[@id='HEADER_SITES_MENU_text']"
 link_RechercheDeSites="//a[@title='Recherche de sites']"
 pageRechercheTitle="//span[@title='Recherche de sites']"
@@ -8,10 +10,10 @@ link_siteTrouve="//tbody[@class='yui-dt-data']"
 link_calendrier="//a[@title='Calendrier']"
 link_site="//img[@src='/share/res/components/site-finder/images/site-64.png']"
 
-
-
 Rechercher un site
+    [Documentation]    ce keyword a pour but de rechercher le site en fournissant le nom du site comme argument 
     [Arguments]    ${nomSiteRecherche}
+
     # CLIQUER SUR MENU SITES  
     Click Element    ${link_MenuSite}
     # S'assurer que sous menu recherche de sites est affiche
@@ -27,6 +29,5 @@ Rechercher un site
     #cliquer sur le boutton recreche 
     Click Button    ${button_recherche}
     Wait Until Element Is Visible    ${link_site}
-    #Wait Until Element Contains    ${link_siteTrouve}    ${nomSiteRecherche}
-    #Element Should Contain   ${link_siteTrouve}    ${nomSiteRecherche}
-    Click Element    ${link_site} 
+    Click Element    ${link_site}
+    

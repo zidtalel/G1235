@@ -1,0 +1,52 @@
+#CreerListeDeDonne 
+link_Sites="xpath=//div[@id='HEADER_SITES_MENU']/span/span[@id='HEADER_SITES_MENU_text']"
+link_RechercheSite="xpath=//a[@href='/share/page/site-finder']"
+link_siteATester1="xpath=//a[@href='/share/page/site/"
+link_siteATester2="' and @class]"
+txt_header="xpath=//span[@title='Recherche de sites']"
+champ_RechercheSite="xpath=//div[@class='search-text']/input"
+btn_RechercherSite="xpath=//div[@class='search-button']/span/span/button"
+
+link_ListeD="xpath=//div[@id='HEADER_SITE_DATA-LISTS']"
+btn_Nouvelle_Liste="xpath://div[@class='datalists']/div/div/span/span/button"
+link_Listedetaches="xpath://div[@class='item-types']/div[6]/span"
+txt_Titre="xpath:(//div[@class='form-field'])[2]/input"
+txt_Description="xpath:(//div[@class='form-field alf-textarea'])/textarea"
+btn_Enregistrer_Nouvelle_Liste="//div[@class='bdft']/span/span/button"
+
+
+
+
+CreerListeDeDonne 
+    #='Liste de tâches'
+    [Arguments]    ${vNomSite}    ${vTypeListe}    ${vTitre}    ${vDescription}    
+    Click Element    ${link_Sites}
+    Sleep    2
+    Wait Until Element Is Visible    ${link_RechercheSite}
+    Click Element    ${link_RechercheSite}
+    Sleep    2
+    Wait Until Element Is Visible    ${txt_header}
+    Input Text    ${champ_RechercheSite}    ${vNomSite}
+    Click Button    ${btn_RechercherSite}
+    #Click sur l'option SitePourYeni
+    Wait Until Element Is Visible    ${link_siteATester1}${vNomSite}${link_siteATester2}
+    Click Element    ${link_siteATester1}${vNomSite}${link_siteATester2}
+    Sleep    2
+    Wait Until Element Is Visible    ${Link_ListeD}
+    Click Element    ${Link_ListeD}
+    Sleep    3
+    #Click sur le bouton Nouvelle Liste 
+    Click Button    ${btn_Nouvelle_Liste}
+    Sleep    3
+    Run Keyword And Ignore Error    Click Element    ${link_Listedetaches}
+    Input Text    ${txt_Titre}    ${vTitre} 
+    Sleep    3
+    #Saisie Description
+    Input Text    ${txt_Description}        ${vDescription} 
+    Sleep    3
+    #Click sur le bouton Enregistrer_NouvelleListe
+    Click Button    ${btn_Enregistrer_NouvelleListe}
+ 
+
+
+ 

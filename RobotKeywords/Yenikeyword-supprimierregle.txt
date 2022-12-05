@@ -1,0 +1,38 @@
+#SupprimierUneRegle
+link_FichiersPartagés="xpath://a[@title='Fichiers partagés']"
+checkbox="//input[@id='checkbox-yui-rec44' or @name='fileChecked' or @type='checkbox' or @value='workspace://SpacesStore/cdd3cae0-499d-499a-b79a-c0e102dcae06' ]"
+link_Plus1="xpath=(//a[contains(text(),'"
+link_Plus2="')]//ancestor::td/following-sibling::td/div/div/div/div)[4]/a/span"
+btn_GèrerlesRègles1="xpath=((//a[contains(text(),'"
+btn_GèrerlesRègles2="')]//ancestor::td/following-sibling::td/div/div/div/div)[5]/div)[3]/a/span" 
+link_Regle1="//a[@class='title' and text()='"
+link_Regle2="']"
+btn_Supprimir1="xpath=(//h2[text()='"
+btn_Supprimir2="']/../div/span)[2]/span/button"
+btn_ConfirmerSupprimer="xpath=(//div[@class='ft']/span/span/span/button)[1]"
+
+
+
+SupprimierUneRegle
+    [Arguments]    ${vNomDossier}    ${vRegle1}    
+    sleep    3s
+    #Click sur le link link_Fichiers_partagés
+    Click Element    ${link_FichiersPartagés} 
+    Sleep    3
+    Page Should Contain Element    //a[contains(text(),'Test-Eliminer regle')]
+    Mouse Over    //a[contains(text(),'Test-Eliminer regle')]
+    Wait Until Element Is Visible    ${link_Plus1}${vNomDossier}${link_Plus2}   
+    #Click element ...link_Plus
+    Click Element    ${link_Plus1}${vNomDossier}${link_Plus2}
+    sleep    2s
+    Wait Until Element Is Visible    ${btn_GèrerlesRègles1}${vNomDossier}${btn_GèrerlesRègles2}    
+    #Click element ...link_Plus
+    Click Element    ${btn_GèrerlesRègles1}${vNomDossier}${btn_GèrerlesRègles2}     
+    sleep    2s
+    Click Link    ${link_Regle1}${vRegle1}${link_Regle2}
+    #Click sur le bouton Supprimir
+    Wait Until Element Is Visible    ${btn_Supprimir1}${vRegle1}${btn_Supprimir2}
+    Click Button    ${btn_Supprimir1}${vRegle1}${btn_Supprimir2}
+    sleep    2s 
+    Wait Until Element Is Visible    ${btn_ConfirmerSupprimer}  
+    #Click Button    ${btn_ConfirmerSupprimer}

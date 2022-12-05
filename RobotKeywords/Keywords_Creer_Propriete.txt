@@ -1,0 +1,109 @@
+             LOCATORS
+	
+#Login page elements
+txt_UserName="name=username"
+txt_Password="name=password"
+btn_Login="xpath=//button[contains(text(), 'Connexion')]"
+
+#Dashboard Page Elements
+lbl_Title="xpath=//h1[@id='HEADER_TITLE']/span"
+link_HeaderUserMenu="id=HEADER_USER_MENU_POPUP_text"
+link_HeaderDeconnexion="id=HEADER_USER_MENU_LOGOUT_text"
+
+#Elements of Creer propriete
+#Elements of Outils Admin
+txt_OutilAdmin="xpath=//a[normalize-space()='Outils admin']"
+txt_GestModeles="xpath=//a[normalize-space()='Gestionnaire de modèles']"
+
+#Elements of Model & Aspect
+txt_Model1="xpath=//span[@class='inner']//span[text()='"
+txt_Model2="']"
+txt_Aspect1="xpath=//span[text()='"
+txt_Aspect2="']"
+
+#Elements of Creer propriété
+btn_Create_Propr="xpath=//span[@class='dijitReset dijitInline dijitButtonText' and text()='Créer une propriété']"
+txt_name="name=name"
+txt_title="name=title"
+txt_description="xpath=//textarea[@name='description' and @data-dojo-attach-point]"
+btn_Create="xpath=//span[@id='CMM_CREATE_PROPERTY_DIALOG_CREATE_label']"
+
+             KEYWORD
+			 
+*** Settings ***
+Documentation    Fichiers de scripts pour fonction RQ6.BF8.1
+Library    SeleniumLibrary
+Variables    ../Locators/Locators_CreerPropriete.py
+
+
+*** Variables ***
+${TIMEOUT}    5
+
+*** Keywords ***
+Login
+    [Documentation]    Ce keyword permet de se connecter au site
+    [Arguments]    ${vUrl}    ${vBrowser}    ${vUsername}    ${vPassword}
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}
+    # Ouvrir le navigateur en precisant l'URL et le navigateur
+    Open Browser    ${vURL}    ${vBrowser}    options=add_argument('--lang=fr')
+    # Maximiser la fenetre du navigateur
+    Maximize Browser Window
+     # Saisie du login
+    Input text    ${txt_UserName}    ${vUsername}
+    # Saisie du mot de passe    
+    Input text    ${txt_Password}    ${vPassword}
+     # Click sur le bouton Login
+    Click Button   ${btn_Login}
+     # S'assurer que la page est chargee
+    Wait Until Element Is Visible    ${lblTitle}
+    # S'assurer que l'utilisateur est connecte et que le tableau de bord est affiche
+    Element Should Contain     ${lblTitle}    Tableau de bord de
+
+Creer propriete dans modele/aspect deja crees
+    [Documentation]    Ce keyword permet de creer une propriete
+    [Arguments]    ${vNomModel}    ${vNomAspect}    ${vNom_propriete}    ${vTitle_propriete}    ${vDescription} 
+    # Accéder à la page Outils Admin
+    Click Element    ${txt_OutilAdmin}
+    # Accéder à la page Gestionnaire de modèles
+    Click Element    ${txt_GestModeles}
+    # Sélectionner le modèle ciblé
+    Sleep    4
+    Wait Until Element Is Visible    ${txt_Model1}${vNomModel}${txt_Model2}
+    Click Element    ${txt_Model1}${vNomModel}${txt_Model2}
+    Sleep    5 
+    Wait Until Element Is Visible    ${txt_Aspect1}${vNomAspect}${txt_Aspect2}
+    Wait Until Element Is Enabled    ${txt_Aspect1}${vNomAspect}${txt_Aspect2}
+    # Accéder à l'aspect
+    Click Element    ${txt_Aspect1}${vNomAspect}${txt_Aspect2}
+    # Cliquer sur bouton Créer une propriété
+    Wait Until Element Is Enabled    ${btn_Create_Propr}
+    Wait Until Element Is Visible    ${btn_Create_Propr}
+    Click Element    ${btn_Create_Propr}
+    # Saisir le nom
+    Input Text    ${txt_name}    ${vNom_propriete}
+    # Saisir le titre
+    Input Text    ${txt_title}    ${vTitle_propriete}
+    # Saisir description
+    Input Text    ${txt_description}    ${vDescription}
+    # Clicker sur le bouton Create
+    Wait Until Element Is Visible    ${btn_Create}
+    Click Element    ${btn_Create}
+    Sleep    4
+    # Faire capture d'écran de la pripriété créée
+    Capture Page Screenshot    ./Screenshots/Preuve_creation_propriete.png
+    Page Should Contain    ${vNom_propriete}     
+
+Logout
+    Wait Until Element Is Visible    ${link_HeaderUserMenu}
+    Click Element    ${link_HeaderUserMenu}
+    Wait Until Element Is Visible    ${link_HeaderDeconnexion}
+    Click Element    ${link_HeaderDeconnexion}
+    
+
+Fermer le Navigateur
+    Sleep    3
+    Close Browser
+    
+
+

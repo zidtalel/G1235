@@ -1,0 +1,64 @@
+			LOCATORS
+			
+#Elements Profil
+txt_profil="xpath=//div[@id='HEADER_USER_MENU_POPUP']//span[@class='alfresco-menus-AlfMenuBarPopup__arrow'][contains(text(),'▾')]"
+txt_monProfil="id=HEADER_USER_MENU_PROFILE_text"
+
+#Elements Corbeille
+txt_corbeille="id=template_x002e_toolbar_x002e_user-profile_x0023_default-user-trashcan-link"
+txt_searchSite="id=template_x002e_user-trashcan_x002e_user-trashcan_x0023_default-search-text"
+btn_recherche="id=template_x002e_user-trashcan_x002e_user-trashcan_x0023_default-search-button-button"
+checkbox1="xpath=//div[@class='name' and text()='"
+checkbox2="']//preceding::input[@type='checkbox']"
+typeSite1="//div[@class='name' and text()='"
+typeSite2="']//ancestor::td//div[text()='/company_home/sites']"
+btn_supprimer1="xpath=//div[text()='"
+btn_supprimer2="']/ancestor::td/following-sibling::td/div/span/span/span/button[@type='button']/ancestor::span/following-sibling::span/span/button"
+btn_ok="xpath=//button[@type='button' and text()='OK']"
+txt_mesConf="id=overlay"
+
+
+			KEYWORD
+			
+*** Settings ***
+Library    SeleniumLibrary
+Variables    ../Locators/Locators_SupprimerSiteDefinitivement.py
+
+
+*** Variables ***
+
+*** Keywords ***
+Supprimer un site definitivement
+    [Documentation]    Ce keyword permet de supprimer un site 
+    [Arguments]    ${vSitename}
+    # Accéder au menu de l'utilisateur
+    Click Element   ${txt_profil}
+    # Accéder au profil de l'utilisateur
+    Click Element    ${txt_monProfil}
+    # Accéder à la Corbeille
+    Click Element    ${txt_corbeille}
+    # Saisir le nom du site a supprimer
+    Input Text    ${txt_searchSite}    ${vSitename}     
+    # Clicker sur Rechercher 
+    Click Button    ${btn_recherche} 
+    Sleep    3
+    Element Should Contain     ${typeSite1}${vSitename}${typeSite2}    /company_home/sites
+    # Cocher le site
+    Wait Until Element Is Visible    ${checkbox1}${vSitename}${checkbox2}
+    Select Checkbox    ${checkbox1}${vSitename}${checkbox2}
+    #Click Button    ${btn_supprimer}
+    Sleep    10
+    Wait Until Element Is Visible    ${btn_supprimer1}${vSitename}${btn_supprimer2}
+    Click Button    ${btn_supprimer1}${vSitename}${btn_supprimer2}
+    #Confirmer la suppression
+    Sleep    5
+    Wait Until Element Is Visible    ${btn_ok}
+    Click Button    ${btn_ok}
+    Sleep    5
+    #Capture d'écran de message de confirmation de suppression
+    Capture Page Screenshot    ./Screenshots/corbeille_site_supprime.png
+    Page Should Not Contain Element    ${vSitename} 
+	
+	
+
+

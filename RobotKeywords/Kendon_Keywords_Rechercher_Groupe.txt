@@ -1,0 +1,26 @@
+#Outils Admin Page Elements
+menu_outils_admin="//div[@id='HEADER_ADMIN_CONSOLE']//a"
+lien_groupes="//a[@href='groups']"
+btn_recherche_groupe="//button[@id='page_x002e_ctool_x002e_admin-console_x0023_default-search-button-button']"
+txt_recherche_groupe="id:page_x002e_ctool_x002e_admin-console_x0023_default-search-text"
+colonne_identifiant_groupe1="//td[@headers='yui-dt9-th-shortName ']/div[text()='"
+colonne_identifiant_groupe2="']"
+
+*** Variables ***
+
+${nom_groupe}    testgroupe
+${num_groupe}    1
+
+
+
+*** Keywords ***
+Rechercher Groupe
+    [Arguments]    ${nom_groupe}    ${num_groupe}
+    Click Element    ${menu_outils_admin}
+    Wait Until Element Is Visible    ${lien_groupes}
+    Click Element    ${lien_groupes}
+    Wait Until Element Is Visible    ${btn_recherche_groupe}
+    Input Text    ${txt_recherche_groupe}    ${nom_groupe}${num_groupe}
+    Click Button    ${btn_recherche_groupe}
+    Wait Until Element Is Visible    ${colonne_identifiant_groupe1}${nom_groupe}${num_groupe}${colonne_identifiant_groupe2}
+    Page Should Contain Element    ${colonne_identifiant_groupe1}${nom_groupe}${num_groupe}${colonne_identifiant_groupe2}

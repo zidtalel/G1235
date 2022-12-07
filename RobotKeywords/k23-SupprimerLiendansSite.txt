@@ -1,0 +1,73 @@
+# # Site Page Elements
+# Link_HeaderRechercheDeSites="xpath://*[@id='HEADER_SITES_MENU_SITE_FINDER_text']/a" 
+# txt_area_RechercheSite="xpath://*[@id='template_x002e_site-finder_x002e_site-finder_x0023_default-term']"
+# Button_Supprimer="xpath://*[@id='yui-gen17-button']"
+# btn_Rechercher="xpath://*[@id='template_x002e_site-finder_x002e_site-finder_x0023_default-button-button']"
+
+# Link_Site_part1="//a[.='"
+# Link_Site_part2="']"
+
+# Link_Lien_part1="//a[.='"
+# Link_Lien_part2="']"
+# Lien_SupprimerButton="//*[@id='template_x002e_linksview_x002e_links-view_x0023_default-linksview']/div[1]/div[2]/a"
+
+
+*** Settings ***
+Library    SeleniumLibrary
+Variables    ../Locator/Locators.py
+*** Variables ***
+${TIMEOUT}    10
+${nom_du_site}    module ca  
+${VLien}    omnivox   
+${Link_Site}    xpath://*[@id="HEADER_SITES_MENU_text"]  
+${Button_Supprimer}    xpath://*[@id="yui-gen17-button"]
+${module_Lien}    xpath://*[@id="HEADER_SITE_LINKS_text"]/a
+
+*** Keywords ***
+Supprimerunlien(dans un site déjà créé)
+    [Documentation]    
+    ...    Se connecter sur l`application Alfersco avec un compte adminstrateur 
+    ...    Avoir un lien sur ce site et un mosule Lien
+
+# Preconditions
+    # Se connecter sur l`application Alfersco avec un compte adminstrateur 
+    # Avoir un lien sur ce site
+
+
+    #${lien} : contient le nom du lien 
+    #${nom_du_site}  : contient le nom du site  
+    [Arguments]    ${TIMEOUT}    ${nom_du_site}    ${lien}    
+    # Definir la valeur de timeout pour le cas de test
+    Set Selenium Timeout    ${TIMEOUT}   
+    #Cliquer sur le Lien Sites       
+    Click Element    ${Link_Site}    
+    #Cliquer sur l`element recherche de sites
+    Sleep    3
+    Click Element    ${Link_HeaderRechercheDeSites}    
+    #S`assurer que la page est chargee
+    Wait Until Element Is Visible    ${txt_area_RechercheSite}  
+    #Saisir le nom du site recherche dans la zone de recherche
+    Input Text    ${txt_area_RechercheSite}     ${nom_du_site} 
+    #Cliquer sur le bouton Rechercher
+    Click Element    ${btn_Rechercher}
+    #S`assurer que la page est chargee
+    Wait Until Element Is Visible    ${Link_Site_part1}${nom_du_site}${Link_Site_part2}
+    #Cliquer sur le site desiree
+    Click Element    ${Link_Site_part1}${nom_du_site}${Link_Site_part2}    
+    
+    Sleep    2
+    Click Element    ${module_Lien}
+    #S`assurer que le lien est bien la
+    Sleep    2
+    Wait Until Element Is Visible     ${Link_Lien_part1}${VLien}${Link_Lien_part2}  
+    
+    Click Element    ${Link_Lien_part1}${VLien}${Link_Lien_part2}
+    Wait Until Element Is Visible    ${Lien_SupprimerButton}     
+    Click Element    ${Lien_SupprimerButton} 
+    
+    #Cliquer sur le button supprimer dans la boite de dialouge
+    Click Button    ${Button_Supprimer}  
+    
+
+ 
+    

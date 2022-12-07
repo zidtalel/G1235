@@ -1,0 +1,69 @@
+# Page Outils Admin - Gestionnaire de modele
+# localisateurModele1 = "xpath://span[text()='"   
+# localisateurModele2 = "']"
+Link_Admin="xpath://*[@id='HEADER_ADMIN_CONSOLE_text']/a"
+Link_Gestionnaire_Modeles="xpath://*[@id='page_x002e_tools_x002e_admin-console_x0023_default-body']/ul[1]/li[7]/span/a"
+
+***Settings***
+Library     SeleniumLibrary
+Variables    ../Locator/Locators.py
+*** Variables ***
+${Vtxt_modele}    Djemaie05
+${CreerAspect}    xpath://span[text()='Créer un aspect'] 
+${InputNewAspect}    name:name
+${txt_newAspect}    SQL 
+${InputEtiquetteAffichage}    name:title  
+${txt_EtiquetteAffichage}    sql
+${InputDescription}    xpath://div[2]/div/textarea
+${txt_Description}    New AspectK2
+${ClickConfirmation}    xpath://*[@id="CMM_CREATE_PROPERTYGROUP_DIALOG_OK_label"]
+${vURL}    http://localhost:8099/share/page
+
+
+
+***Keywords***
+CreerAspectK2
+     [Documentation]    
+    ...    Se connecter sur l`application Alfersco avec un compte adminstrateur 
+    ...    Avoir un modele cree
+
+    #${Vtxt_modele} : contient le nom du modele 
+# Preconditions
+    ## etre connecter avec un compte administrateur
+    ##  Avoir un modele cree (${Vtxt_modele})
+    
+
+
+    # ${txt_modele} contient le modele choisi et ${txt_newAspect} le nom du nouvel aspect a creer 
+    [Arguments]     ${Vtxt_modele}     ${txt_newAspect}   ${txt_EtiquetteAffichage}       ${txt_Description} 
+
+    # S'assurer que la page est chargee 
+    Wait Until Element Is Visible    ${Link_Admin}    
+    #cliquer sur l'onglet "Outils admin"
+    Click Element    ${Link_Admin}          
+    #cliquer sur l'outils "Gestionnaire de modèles"
+    Click Element    ${Link_Gestionnaire_Modeles}      
+    #S'assurer que la page est chargee et contient le Modele choisi
+    Sleep    2
+    Wait Until Element Is Visible    ${localisateurModele1}${Vtxt_modele}${localisateurModele2}
+    Sleep   3
+    #cliquer sur le modéle choisi
+    Click Element       ${localisateurModele1}${Vtxt_modele}${localisateurModele2}
+    # S'assurer que la page est chargee 
+    Sleep    3
+    Wait Until Element Is Visible    ${CreerAspect}  
+    #cliquer sur le bouton "Créer un aspect"
+    Click Element    ${CreerAspect}
+    #saisir le Nom du nouvel aspect et les champs à completer
+    Input text   ${InputNewAspect}   ${txt_newAspect} 
+    Input text   ${InputEtiquetteAffichage}   ${txt_EtiquetteAffichage}
+    Input text   ${InputDescription}   ${txt_Description}
+    #cliquer sur le bouton "Créer"
+    Click Element    ${ClickConfirmation}
+    # S'assurer que la page est chargee et contient le nouvel Aspect
+    #Wait Until Element Is Visible    ${txt_newAspect}
+    #s'assurer que l'aspect "SQL " est visible dans la section Aspect
+    #Element Should Contain     ${txt_newAspect}
+    Sleep   3s
+    #Retourner à l'accueil
+    Go To    ${vURL}

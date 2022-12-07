@@ -1,6 +1,6 @@
 *** Variables ***
-${nom_groupe}    testdossier
-${num_groupe}    1
+${nom_dossier}    testdossier
+${num_dossier}    1
 
 
 #Fichiers Partages Elements

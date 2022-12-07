@@ -37,7 +37,8 @@ ${vNomSite}    sitejoey
 ${vNomSujet}    sujetSupprimer1127
 
 
-SupprimerSujetDansDiscussionDeSite
+*** Keywords ***
+Supprimer Sujet Dans Discussion De Site
     [Documentation]    Supprimer un sujet dans une discussion (dans un site déjà créé)
     [Arguments]    ${vNomSite}    ${vNomSujet}
     Click Element    ${link_Sites}
@@ -71,5 +72,3 @@ SupprimerSujetDansDiscussionDeSite
     # cliquer le sujet precis 
     # Wait Until Element Is Visible    ${link_sujetSupprimer1}${vNomSujet}${link_sujetSupprimer2}
     # Click Element    ${link_sujetSupprimer1}${vNomSujet}${link_sujetSupprimer2}
-	
-	***

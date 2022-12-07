@@ -1,5 +1,5 @@
 *** Variables ***
-${nom_groupe}    testgroupe
+${nom_groupe}    testdossier
 ${num_groupe}    1
 
 

@@ -37,7 +37,7 @@ ${vNomSite}    sitejoey
 
 
 *** Keywords ***
-ConfigurerDiscussions
+Configurer Discussions
     [Documentation]    Personnaliser l'affichage des liens du site pour 'Discussion' serait visible（directment ou sous options 'plus'）
     [Arguments]    ${vNomSite}
     Click Element    ${link_Sites}
@@ -50,18 +50,23 @@ ConfigurerDiscussions
     # cliquer le site precis pour entrer la page du site
     Wait Until Element Is Visible    ${link_siteATester1}${vNomSite}${link_siteATester2}
     Click Element    ${link_siteATester1}${vNomSite}${link_siteATester2}
-    # aller configuration
-    Wait Until Element Is Visible    ${option_configurationDeSite}
-    Click Element    ${option_configurationDeSite}
-    # aller personnaliser le site
-    Wait Until Element Is Visible    ${option_personaliserSite}
-    Click Element    ${option_personaliserSite}
-    # deplacer 'Discussions' de 'page du site disponible' a 'page du site actuel'
-    Wait Until Element Is Visible    ${img_DiscussionsDans1erCadre}
-    Drag And Drop    ${img_DiscussionsDans1erCadre}    ${placeDans2erCadre}
     Sleep    3s
-    Click Button    ${btn_ok_drapDrop}
-    sleep    3s
-    
-	***
-    
+    # option 'Discussions' soit apparu ou directment ou sous option 'plus'
+    ${IsDiscussionsVisible}    Run Keyword And Return Status    Element Should Not Be Visible    ${link_Discussions}
+    IF    ${IsDiscussionsVisible}
+        Page Should Contain Element    ${link_Plus}
+        Click Element    ${link_Plus}
+        IF    ${IsDiscussionsVisible}
+            # aller configuration
+            Page Should Contain Element    ${option_configurationDeSite}
+            Click Element    ${option_configurationDeSite}
+            Wait Until Element Is Visible    ${option_personaliserSite}
+            Click Element    ${option_personaliserSite}
+            # deplacer 'Discussions' de 'page du site disponible' a 'page du site actuel'
+            Wait Until Element Is Visible    ${img_DiscussionsDans1erCadre}
+            Drag And Drop    ${img_DiscussionsDans1erCadre}    ${placeDans2erCadre}
+            Sleep    3s
+            Click Button    ${btn_ok_drapDrop}
+            sleep    3s
+        END
+    END

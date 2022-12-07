@@ -23,7 +23,7 @@ ${vChampIden}    groupeJoey
 ${vChampNomAffi}    groupeJoey
 
 
-
+*** Keywords ***
 CreerGroupe
     [Documentation]    Creer un nouveau groupe
     [Arguments]    ${vChampIden}    ${vChampNomAffi}
@@ -39,5 +39,3 @@ CreerGroupe
     Input text    ${champ_Idendifiant}    ${vChampIden}
     Input text    ${champ_NomAffiche}    ${vChampNomAffi}
     Click Button    ${btn_CreerGroupe}
-	
-	***
